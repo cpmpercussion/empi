@@ -14,6 +14,7 @@ def generate_data():
     NSAMPLE = 50000
     print("Generating", str(NSAMPLE), "toy data samples.")
     t_data = np.float32(np.array(range(NSAMPLE)) / 10.0)
+    print("t-data: ", t_data)
     t_interval = t_data[1] - t_data[0]
     t_r_data = np.random.normal(0, t_interval / 20.0, size=NSAMPLE)
     t_data = t_data + t_r_data
@@ -49,7 +50,11 @@ class SequenceDataLoader(object):
         """Return an epoch of batches of shuffled examples."""
         np.random.shuffle(self.examples)
         batches = []
-        for i in range(len(self.examples) / self.batch_size):
+        print("samples: ", self.examples)
+        print("num samples: ", len(self.examples))
+        print("batch size: ", self.batch_size)
+        max_epoch = int(len(self.examples) / self.batch_size)
+        for i in range(max_epoch):
             batch = self.examples[i * self.batch_size: (i + 1) * self.batch_size]
             batches.append(batch)
         return(np.array(batches))
@@ -88,6 +93,10 @@ class TinyJamNet2D(object):
             self.use_input_dropout = True
         self.dropout_prob = 0.90
         self.run_name = self.get_run_name()
+
+        # For storing and plotting LSTM state history.
+        self.state_history_c = []
+        self.state_history_h = []
 
         tf.reset_default_graph()
         self.graph = tf.get_default_graph()
@@ -228,7 +237,7 @@ class TinyJamNet2D(object):
         self.saver.restore(sess, MODEL_DIR + self.model_name())
         self.state = None
 
-    def generate_touch(self, prev_touch, sess):
+    def generate_touch(self, prev_touch, sess, store_LSTM_state_history=False):
         """Generate prediction for a single touch."""
         input_touch = prev_touch.reshape([1, 1, self.n_input_units])  # Give input correct shape for one-at-a-time evaluation.
         if self.state is not None:
@@ -236,14 +245,17 @@ class TinyJamNet2D(object):
         else:
             feed = {self.x: input_touch}
         prediction, self.state = sess.run([self.sample, self.final_state], feed_dict=feed)
+        if store_LSTM_state_history:
+            self.state_history_c.append(self.state[0][0])
+            self.state_history_h.append(self.state[0][1])
         return prediction
 
-    def generate_performance(self, first_touch, number, sess):
+    def generate_performance(self, first_touch, number, sess, store_LSTM_state_history=False):
         self.prepare_model_for_running(sess)
         previous_touch = first_touch
         performance = [previous_touch.reshape((self.n_input_units,))]
         for i in range(number):
-            previous_touch = self.generate_touch(previous_touch, sess)
+            previous_touch = self.generate_touch(previous_touch, sess, store_LSTM_state_history)
             performance.append(previous_touch.reshape((self.n_input_units,)))
         return np.array(performance)
 
@@ -252,6 +264,9 @@ class TinyJamNet2D(object):
 # Train on sequences of length 121 with batch size 100.
 def test_training():
     x_t_log = generate_data()
+    plt.plot(x_t_log)
+    plt.show()
+    print ("training data is ", x_t_log)
     loader = SequenceDataLoader(num_steps=121, batch_size=100, corpus=x_t_log)
     net = TinyJamNet2D(mode=NET_MODE_TRAIN, n_hidden_units=128, n_mixtures=10, batch_size=100, sequence_length=120)
     losses = net.train(loader, 30, saving=True)
