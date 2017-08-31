@@ -2,13 +2,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
-ANIM_INTERVAL = 50
+ANIM_INTERVAL = 100
 
 #interval controls speed. Higher interval - lower speed.
-def animate_data_as_line(data, fig, xmin=-10,ymin=-10, xmax=10, ymax=10, anim_interval=ANIM_INTERVAL):
+def animate_data_as_line(data, fig, ax, xmin=-5,ymin=-10, xmax=50, ymax=10, anim_interval=ANIM_INTERVAL):
+    plt.sca(ax) # Setting input axis as current
+    num_timesteps = data.shape[1]
+
     def update_line(num, data, line):
         line.set_data(data[..., :num])
-        return line,
     l, = plt.plot([], [], 'r-')
     plt.xlim(xmin,xmax)
     plt.ylim(ymin, ymax)
@@ -17,15 +19,17 @@ def animate_data_as_line(data, fig, xmin=-10,ymin=-10, xmax=10, ymax=10, anim_in
     print("ani start")
     #interval controls animation speed.
     line_ani = animation.FuncAnimation(fig, update_line, fargs=(data, l),
-                                       interval=anim_interval, blit=True)
+                                       interval=anim_interval, frames=num_timesteps)
     print("ani done")
 
     return line_ani
 
-def animate_data_as_grid(data, fig, ax, xmin=-10, ymin=-10, xmax=10, ymax=10, anim_interval=ANIM_INTERVAL):
-
+def animate_data_as_grid(data, fig, ax, anim_interval=ANIM_INTERVAL):
+    plt.sca(ax)  # Setting input axis as current
     x_size = y_size = data.shape[0]
     num_timesteps = data.shape[1]
+    print("x size: ", x_size)
+    print("num steps: ", num_timesteps)
 
     #TODO Enable a mode where the plot slides from 0 and up,
     #TODO Strange diagonal artifacts...
@@ -38,9 +42,10 @@ def animate_data_as_grid(data, fig, ax, xmin=-10, ymin=-10, xmax=10, ymax=10, an
             data_array[:,  y_size-i:] = data[:, :i]
             cax.set_array(data_array.flatten())
 
-    x = np.linspace(xmin, xmax, x_size+1) #1 for each neuron.
-    y = np.linspace(ymin, ymax, y_size+1) # making the plot square - doesn't have to be.
-
+    x = np.arange(x_size+1)#, x_size+1) #1 for each neuron.
+    y = np.arange(y_size+1)#, y_size+1) # making the plot square - doesn't have to be.
+    print(x)
+    print(y)
 
     #fig, ax = plt.subplots(figsize=(5, 3))
 
@@ -48,7 +53,7 @@ def animate_data_as_grid(data, fig, ax, xmin=-10, ymin=-10, xmax=10, ymax=10, an
                         vmin=-1, vmax=1, cmap='Blues')
     fig.colorbar(cax)
     anim = animation.FuncAnimation(
-        fig, animate, interval=anim_interval, frames=(num_timesteps-y_size))
+        fig, animate, interval=anim_interval, frames=num_timesteps)
 
     return anim #TODO Study how to return a plot from python to jupyter
 
@@ -82,27 +87,47 @@ print(perf_df.describe())
 
 
 data_to_animate=np.array([perf_df[:].time, perf_df[:].x])
-#data_to_animate = np.random.rand(2, 25)
+
+
+
 
 #Animating LSTM output
-fig1 = plt.figure()
-plt.title("Output")
-anim = animate_data_as_line(data_to_animate,fig1)
-print("output-data: ", data_to_animate.shape)
+#fig1 = plt.figure()
+#plt.title("Output")
+#anim = animate_data_as_line(data_to_animate,fig1)
 
 #Animating LSTM internal state
-fig2, ax2 = plt.subplots()
-plt.title("Memory State")
-anim2 = animate_data_as_grid(np.squeeze(net.state_history_c).T, fig2, ax2)
-print("memory-data: ", np.squeeze(net.state_history_c).T.shape)
+#fig2, ax2 = plt.subplots()
+#plt.title("Memory State")
+#anim2 = animate_data_as_grid(np.squeeze(net.state_history_c).T, fig2, ax2)
+
+
 
 #Animating LSTM internal state
-fig3, ax3 = plt.subplots()
-plt.title("Activation State")
-anim2 = animate_data_as_grid(np.squeeze(net.state_history_h).T, fig3, ax3)
-print("activation-data: ",np.squeeze(net.state_history_h).T.shape)
+#fig3, ax3 = plt.subplots()
+#plt.title("Activation State")
+#anim3 = animate_data_as_grid(np.squeeze(net.state_history_h).T, fig3, ax3)
 
-plt.draw()
+'''
+data_to_animate = np.random.rand(2, 25)
+#200 timesteps of neuron activations.
+random_data = np.random.randn(90,2000)
+'''
+
+print("output shape: ", data_to_animate.shape)
+print("internal model shape: ", np.squeeze(net.state_history_h).T.shape)
+fig = plt.figure()
+ax1 = fig.add_subplot(3, 1, 1)
+ax1.set_title("Output")
+ax2 = fig.add_subplot(3, 1, 2)
+ax2.set_title("Hidden State")
+ax3 = fig.add_subplot(3, 1, 3)
+ax3.set_title("Cell State")
+anim = animate_data_as_line(data_to_animate,fig, ax1)
+anim2 = animate_data_as_grid(np.squeeze(net.state_history_h).T, fig, ax2)
+anim3 = animate_data_as_grid(np.squeeze(net.state_history_c).T, fig, ax3)
+
+#plt.draw()
 plt.show()
 
 '''
