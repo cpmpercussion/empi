@@ -5,19 +5,18 @@ from __future__ import print_function
 import numpy as np
 import pandas as pd
 import os
-import argparse
+# import argparse
 
-print("Script to generate a dataset from .log files in the log directory.")
+print("EMPI specific Script to generate a dataset from .log files in the log directory.")
 
-# Input and output to serial are bytes (0-255)
-# Output to Pd is a float (0-1)
-parser = argparse.ArgumentParser(description='Script to generate a dataset from .log files in the log directory.')
-parser.add_argument('-d', '--dimension', type=int, dest='dimension', default=2,
-                    help='The dimension of the data to model, must be >= 2.')
-parser.add_argument('-s', '--source', dest='sourcedir', default='logs',
-                    help='The source directory to obtain .log files')
-args = parser.parse_args()
-
+# # Input and output to serial are bytes (0-255)
+# # Output to Pd is a float (0-1)
+# parser = argparse.ArgumentParser(description='Script to generate a dataset from .log files in the log directory.')
+# parser.add_argument('-d', '--dimension', type=int, dest='dimension', default=2,
+#                     help='The dimension of the data to model, must be >= 2.')
+# parser.add_argument('-s', '--source', dest='sourcedir', default='logs',
+#                     help='The source directory to obtain .log files')
+# args = parser.parse_args()
 
 def transform_log_to_sequence_example(logfile, dimension):
     data_names = ['x'+str(i) for i in range(dimension-1)]
@@ -26,6 +25,9 @@ def transform_log_to_sequence_example(logfile, dimension):
                           header=None, parse_dates=True,
                           index_col=0, names=column_names)
     #  Filter out RNN lines, just keep 'interface'
+    if "rnnbox" in logfile:
+        print("Old RNNbox file, dividing by 255")
+        perf_df.x0 /= 255
     perf_df = perf_df[perf_df.source == 'interface']
     #  Process times.
     perf_df['t'] = perf_df.index
@@ -36,30 +38,28 @@ def transform_log_to_sequence_example(logfile, dimension):
 
 
 # Load up the performances
-log_location = "logs/"
-log_file_ending = "-" + str(args.dimension) + "d-mdrnn.log"
+log_location = "rnn_box_data/"
+log_file_ending = ".log" #"-" + str(args.dimension) + "d-mdrnn.log"
 log_arrays = []
 
 for local_file in os.listdir(log_location):
     if local_file.endswith(log_file_ending):
         print("Processing:", local_file)
         try:
-            log = transform_log_to_sequence_example(log_location + local_file,
-                                                args.dimension)
+            log = transform_log_to_sequence_example(log_location + local_file,2)
             log_arrays.append(log)
         except Exception:
             print("Processing failed for", local_file)        
 
 # Save Performance Data in a compressed numpy file.
 dataset_location = 'datasets/'
-dataset_filename = 'training-dataset-' + str(args.dimension) + 'd.npz'
+dataset_filename = 'empi-training-dataset-2d.npz'
 
 # Input format is:
 # 0. 1. 2. ... n.
 # dt x1 x2 ... xn
 
 raw_perfs = []
-
 acc = 0
 time = 0
 interactions = 0
