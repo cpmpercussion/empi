@@ -10,7 +10,7 @@ import datetime
 import os
 os.environ['KMP_DUPLICATE_LIB_OK']='True'
 
-print("Script to train a predictive music interaction model for EMPI.)
+print("Script to train a predictive music interaction model for EMPI.")
 
 # Input and output to serial are bytes (0-255)
 # Output to Pd is a float (0-1)
