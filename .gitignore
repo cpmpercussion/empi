@@ -1,7 +1,9 @@
 *.pyc
 .ipynb_checkpoints
-checkpoint
-output-logs
+
+logs
+datasets
+models
 
 *.hdf5
 *.no

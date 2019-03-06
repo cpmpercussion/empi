@@ -5,4 +5,5 @@ keras
 tensorflow
 tensorflow-probability
 python-osc
+noise
 

@@ -140,14 +140,12 @@ tboard = keras.callbacks.TensorBoard(log_dir='./logs/' + date_string + model_nam
                                      batch_size=32,
                                      write_graph=True,
                                      update_freq='epoch')
-
-callbacks = [checkpoint, terminateOnNaN, tboard]
-callbacks.append(early_stopping)
+callbacks = [checkpoint, terminateOnNaN, tboard, early_stopping]
 # Train
 history = model.fit(X, y, batch_size=BATCH_SIZE,
                     epochs=EPOCHS,
                     validation_split=VAL_SPLIT,
-                    callbacks=[checkpoint, terminateOnNaN, tboard])
+                    callbacks=callbacks)
 
 # Save final Model
 model.save_weights(model_dir + model_name + ".h5")
