@@ -22,6 +22,7 @@ PREDICTION_MESSAGE_ADDRESS = "/prediction"
 # Output to Pd is a float (0-1)
 parser = argparse.ArgumentParser(description='Interface for EMPI 1.0 using Arduino and Serial Connection.')
 parser.add_argument('-m', '--mirror', dest='user_to_servo', action="store_true", help="Mirror physical input on physical output for testing.")
+parser.add_argument("-v", "--verbose", dest="verbose", action="store_true", help="Verbose, print input and output for testing.")
 # OSC addresses
 parser.add_argument("--predictorip", default="localhost", help="The address of the IMPS prediction system.")
 parser.add_argument("--predictorport", type=int, default=5001, help="The port the IMPS server is listening on.")
@@ -55,6 +56,8 @@ def interaction_loop():
     userloc = None
     while ser.in_waiting > 0:
         userloc = read_lever()
+        if args.verbose:
+            print("Input:", userloc)
         # Send sound to predictor.
         osc_predictor.send_message(INTERFACE_MESSAGE_ADDRESS, userloc)
         # Send sound to synth
@@ -113,6 +116,8 @@ thread_running = False
 
 
 print("starting up.")
+if args.verbose:
+    print("Verbose mode on.")
 thread_running = True
 try:
     while True:
