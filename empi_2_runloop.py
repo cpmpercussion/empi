@@ -25,7 +25,7 @@ PREDICTION_MESSAGE_ADDRESS = "/prediction"
 # Output to Pd is a float (0-1)
 parser = argparse.ArgumentParser(description='Interface for EMPI 1.0 using Arduino and Serial Connection.')
 parser.add_argument('-m', '--mirror', dest='user_to_servo', action="store_true", help="Mirror physical input on physical output for testing.")
-parser.add_argument("-v", "--verbose", dest="verbose", action="store_true", help="Verbose, print input and output for testing.")
+parser.add_argument('-v', '--verbose', dest='verbose', action='store_true', help='Verbose, print input and output for testing.')
 # OSC addresses
 parser.add_argument("--predictorip", default="localhost", help="The address of the IMPS prediction system.")
 parser.add_argument("--predictorport", type=int, default=5001, help="The port the IMPS server is listening on.")
@@ -36,18 +36,14 @@ parser.add_argument("--serverport", type=int, default=5000, help="The port this 
 args = parser.parse_args()
 
 
-# Functions for OSC Connection.
-
 def handle_prediction_message(address: str, *osc_arguments) -> None:
     """Handler for OSC messages from the interface"""
+    print("Received Prediction")
     if args.verbose:
         print("Prediction:", time.time(), ','.join(map(str, osc_arguments)))
     pred_loc = osc_arguments[0]
     osc_synth.send_message(PREDICTION_MESSAGE_ADDRESS, pred_loc)
     command_servo(pred_loc)
-
-
-# Interaction Loop
 
 
 def interaction_loop():
@@ -82,8 +78,6 @@ def interaction_loop():
 
 
 class GroveServo:
-    # MIN_DEGREE = 5
-    # MAX_DEGREE = 175
     INIT_DUTY_MS = 1.5  # in ms
     SERVO_PWM_FREQUENCY = 50
     MAX_DUTY_CYCLE_MS = 2.2
@@ -154,6 +148,10 @@ osc_synth = udp_client.SimpleUDPClient(args.synthip, args.synthport)
 disp = dispatcher.Dispatcher()
 disp.map(PREDICTION_MESSAGE_ADDRESS, handle_prediction_message)
 server = osc_server.ThreadingOSCUDPServer((args.serverip, args.serverport), disp)
+
+print("Interface server started.")
+print("Serving on {}".format(server.server_address))
+
 thread_running = False
 
 
