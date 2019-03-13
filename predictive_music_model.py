@@ -27,11 +27,12 @@ parser.add_argument("--serverip", default="localhost", help="The address of this
 parser.add_argument("--serverport", type=int, default=5001, help="The port this server should listen on.")
 # MDRNN arguments.
 parser.add_argument('-d', '--dimension', type=int, dest='dimension', default=2, help='The dimension of the data to model, must be >= 2.')
-parser.add_argument("--modelsize", default="s", help="The model size: s, m, l, xl")
+parser.add_argument('-s', '--modelsize', dest='modelsize', default='s', help="The model size: xs, s, m, l, xl")
 parser.add_argument("--sigmatemp", type=float, default=0.01, help="The sigma temperature for sampling.")
 parser.add_argument("--pitemp", type=float, default=1, help="The pi temperature for sampling.")
+# Custom Model File:
+parser.add_argument('--modelfile', dest="modelfile", default="", help="Location of a custom model file.")
 args = parser.parse_args()
-
 # Import Keras and tensorflow, doing this later to make CLI more responsive.
 print("Importing Keras and MDRNN.")
 start_import = time.time()
@@ -45,28 +46,32 @@ print("Done. That took", time.time() - start_import, "seconds.")
 # TODO set up interface to build MDRNN
 # TODO set up run loop for inference.
 
-
 # Choose model parameters.
-if args.modelsize is 's':
+if args.modelsize == 'xs':
+    print("Using XS model.")
+    mdrnn_units = 32
+    mdrnn_mixes = 5
+    mdrnn_layers = 2
+elif args.modelsize == 's':
+    print("Using S model.")
     mdrnn_units = 64
     mdrnn_mixes = 5
     mdrnn_layers = 2
-elif args.modelsize is 'm':
+elif args.modelsize == 'm':
+    print("Using M model.")
     mdrnn_units = 128
     mdrnn_mixes = 5
     mdrnn_layers = 2
-elif args.modelsize is 'l':
+elif args.modelsize == 'l':
+    print("Using L model.")
     mdrnn_units = 256
     mdrnn_mixes = 5
     mdrnn_layers = 2
-elif args.modelsize is 'xl':
+elif args.modelsize == 'xl':
+    print("Using XL model.")
     mdrnn_units = 512
     mdrnn_mixes = 5
     mdrnn_layers = 3
-else:
-    mdrnn_units = 128
-    mdrnn_mixes = 5
-    mdrnn_layers = 2
 
 # Interaction Loop Parameters
 # All set to false before setting is chosen.
@@ -110,7 +115,7 @@ def build_network(sess):
                                               layers=mdrnn_layers)
         net.pi_temp = args.pitemp
         net.sigma_temp = args.sigmatemp
-    print("MDRNN Loaded.")
+    print("MDRNN Loaded:", net.model_name())
     return net
 
 
@@ -267,7 +272,10 @@ thread_running = True  # todo is this line needed?
 print("Preparing MDRNN.")
 K.set_session(sess)
 with compute_graph.as_default():
-    net.load_model()  # try loading from default file location.
+    if args.modelfile is not "":
+        net.load_model(model_file=args.modelfile) # load custom model.
+    else:
+        net.load_model()  # try loading from default file location.
 print("Preparting MDRNN thread.")
 rnn_thread = Thread(target=playback_rnn_loop, name="rnn_player_thread", daemon=True)
 print("Preparing Server thread.")
