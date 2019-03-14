@@ -1,0 +1,10 @@
+[Unit]
+Description=EMPI Startup Script
+After=multi-user.target
+
+[Service]
+Type=idle
+ExecStart=/bin/bash /home/pi/empi/empi_2_run.sh
+
+[Install]
+WantedBy=multi-user.target
