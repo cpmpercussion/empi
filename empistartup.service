@@ -3,8 +3,12 @@ Description=EMPI Startup Script
 After=multi-user.target
 
 [Service]
-Type=idle
 ExecStart=/bin/bash /home/pi/empi/empi_2_run.sh
+WorkingDirectory=/home/pi/empi
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=pi
 
 [Install]
 WantedBy=multi-user.target
