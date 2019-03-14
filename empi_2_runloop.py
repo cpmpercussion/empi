@@ -38,7 +38,6 @@ args = parser.parse_args()
 
 def handle_prediction_message(address: str, *osc_arguments) -> None:
     """Handler for OSC messages from the interface"""
-    print("Received Prediction")
     if args.verbose:
         print("Prediction:", time.time(), ','.join(map(str, osc_arguments)))
     pred_loc = osc_arguments[0]
@@ -64,14 +63,6 @@ def interaction_loop():
         if args.user_to_servo:
             print("Input -> Servo:", userloc)
             command_servo(userloc)
-    # # Send any waiting messages to the servo.
-    # while not writing_queue.empty():
-    #     servo_pos = writing_queue.get()
-    #     command_servo(servo_pos)
-
-# receive an output
-# to_play_back = 0
-# writing_queue.put_nowait(to_play_back)
 
 
 # Functions for sending and receving from levers.
@@ -148,18 +139,18 @@ osc_synth = udp_client.SimpleUDPClient(args.synthip, args.synthport)
 disp = dispatcher.Dispatcher()
 disp.map(PREDICTION_MESSAGE_ADDRESS, handle_prediction_message)
 server = osc_server.ThreadingOSCUDPServer((args.serverip, args.serverport), disp)
-
-print("Interface server started.")
-print("Serving on {}".format(server.server_address))
-
+server_thread = Thread(target=server.serve_forever, name="server_thread", daemon=True)
 thread_running = False
 
 
 print("starting up.")
 if args.verbose:
     print("Verbose mode on.")
-thread_running = True
 try:
+    thread_running = True
+    server_thread.start()
+    print("Interface server started.")
+    print("Serving on {}".format(server.server_address))
     while True:
         interaction_loop()
 except KeyboardInterrupt:
