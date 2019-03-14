@@ -87,7 +87,6 @@ class GroveServo:
         duty_cycle_ms = interp(angle, [0, 180],
                                [GroveServo.MIN_DUTY_CYCLE_MS,
                                 GroveServo.MAX_DUTY_CYCLE_MS])
-        print(duty_cycle_ms * GroveServo.MS_TO_DC_SCALE)
         self.pwm.ChangeDutyCycle(duty_cycle_ms * GroveServo.MS_TO_DC_SCALE)
 
 
@@ -108,8 +107,6 @@ def read_lever():
     inp_int = min(max(inp_int, POT_MIN), POT_MAX)  # limit value within a range
     if (abs(inp_int - last_potentiometer_value) > MIN_POT_CHANGE):
         last_potentiometer_value = inp_int
-        if args.verbose:  # print int value for debugging.
-            print(inp_int)
         return interp(inp_int, [POT_MIN, POT_MAX], [0, 1])
     else:
         return None
