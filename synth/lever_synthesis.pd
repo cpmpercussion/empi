@@ -1,4 +1,4 @@
-#N canvas 413 146 840 787 10;
+#N canvas 2647 214 840 787 10;
 #X obj 129 275 netreceive -u -b;
 #X obj 129 321 oscparse;
 #X obj 129 342 list trim;
@@ -44,7 +44,7 @@ address "inst".;
 #X obj 543 326 ctlin 9 11;
 #X floatatom 543 347 5 0 0 0 - - -, f 5;
 #X obj 546 364 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 4100 1;
+-1 -1 7700 1;
 #X obj 543 384 / 127;
 #X obj 543 425 s osctestinput;
 #X obj 543 405 oscformat interface;
@@ -101,7 +101,7 @@ address "inst".;
 #X restore 170 595 pd output_stage;
 #X floatatom 545 474 5 0 0 0 - - -, f 5;
 #X obj 548 491 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 8800 1;
+-1 -1 1000 1;
 #X obj 545 511 / 127;
 #X obj 545 552 s osctestinput;
 #X obj 545 532 oscformat prediction;
