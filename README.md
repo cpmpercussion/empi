@@ -1,6 +1,7 @@
-# Musical MDNs
+# EMPI: Embodied Musical Predictive Interface
 
-Experiments with Mixture Density Networks for generating musical data.
+An embedded musical instrument for studying musical prediction and embodied interaction.
+
 
 ![Musical MDN Example](https://github.com/cpmpercussion/creative-mdns/raw/master/images/rnn_output.png)
 
@@ -28,3 +29,12 @@ There's build instructions for Raspberry courtesy of [samjabrahams](https://gith
 In addition to tensorflow, you also need `pandas`, `numpy` and `pySerial`. Then the interface controller can be run like so:
 
     python3 musical_mdn_interface_controller.py
+
+## Assembly
+
+The EMPI consists of a Raspberry Pi, audio amplifier and speaker, input lever, and output lever, in a 3D-printed enclosure. The assembly materials and plans are below.
+
+### Raspberry Pi
+
+- Raspberry Pi 3B+
+- Seeed Studios Grove Base Hat
