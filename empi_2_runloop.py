@@ -13,6 +13,7 @@ from pythonosc import udp_client
 from grove.i2c import Bus
 from grove.adc import ADC
 import RPi.GPIO as GPIO
+import grove_display
 from numpy import interp
 # Setup for GPIO
 GPIO.setwarnings(False)
@@ -33,6 +34,7 @@ parser.add_argument("--synthip", default="localhost", help="The address of the s
 parser.add_argument("--synthport", type=int, default=3000, help="The port the synth.")
 parser.add_argument("--serverip", default="localhost", help="The address of this server.")
 parser.add_argument("--serverport", type=int, default=5000, help="The port this interface should listen on.")
+parser.add_argument("--screen", dest="screen", action="store_true", help="Use OLED display for showing data.")
 args = parser.parse_args()
 
 
@@ -43,6 +45,11 @@ def handle_prediction_message(address: str, *osc_arguments) -> None:
     pred_loc = osc_arguments[0]
     osc_synth.send_message(PREDICTION_MESSAGE_ADDRESS, pred_loc)
     command_servo(pred_loc)
+    if args.screen:
+        disp.set_cursor(0, 0)
+        disp.puts('EMPI.           ')
+        disp.set_cursor(0, 1)
+        disp.puts("RNN: {:10.4f}".format(str(osc_arguments[0])))
 
 
 def interaction_loop():
@@ -143,6 +150,10 @@ thread_running = False
 print("starting up.")
 if args.verbose:
     print("Verbose mode on.")
+
+if args.screen:
+    display = grove_display.setup_display()
+
 try:
     thread_running = True
     server_thread.start()
