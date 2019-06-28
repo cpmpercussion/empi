@@ -35,6 +35,8 @@ In addition to tensorflow, you also need `pandas`, `numpy` and `pySerial`. Then 
 
 ## Assembly
 
+![](https://media.giphy.com/media/KeKzvZvpjpWcKgXFzR/giphy.gif)
+
 The EMPI consists of a Raspberry Pi, audio amplifier and speaker, input lever, and output lever, in a 3D-printed enclosure. The assembly materials and plans are below.
 
 ### Raspberry Pi
