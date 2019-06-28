@@ -16,7 +16,7 @@ Multiple implementations of a mixture density recurrent neural network are inclu
 
 Part of this work is concerned with using these networks in a Raspberry Pi-based musical interface.
 
-![Musical Interface](https://github.com/cpmpercussion/creative-mdns/raw/master/images/rnn-interface.jpg)
+<!-- ![Musical Interface](https://github.com/cpmpercussion/creative-mdns/raw/master/images/rnn-interface.jpg) -->
 
 ### Installing on Raspberry Pi
 
