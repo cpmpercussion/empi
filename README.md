@@ -2,7 +2,7 @@
 
 An embedded musical instrument for studying musical prediction and embodied interaction.
 
-<video src="https://giphy.com/gifs/KFoOINQn0moVJB8uUe/html5" width="320" height="200" controls preload></video>
+<video src="https://giphy.com/gifs/KFoOINQn0moVJB8uUe/html5"></video>
 
 
 ![Musical MDN Example](https://github.com/cpmpercussion/creative-mdns/raw/master/images/rnn_output.png)
