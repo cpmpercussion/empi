@@ -2,6 +2,9 @@
 
 An embedded musical instrument for studying musical prediction and embodied interaction.
 
+<!-- <video src="https://giphy.com/gifs/KFoOINQn0moVJB8uUe/html5"></video> -->
+
+![](https://media.giphy.com/media/KFoOINQn0moVJB8uUe/giphy.gif)
 
 ![Musical MDN Example](https://github.com/cpmpercussion/creative-mdns/raw/master/images/rnn_output.png)
 
@@ -13,7 +16,7 @@ Multiple implementations of a mixture density recurrent neural network are inclu
 
 Part of this work is concerned with using these networks in a Raspberry Pi-based musical interface.
 
-![Musical Interface](https://github.com/cpmpercussion/creative-mdns/raw/master/images/rnn-interface.jpg)
+<!-- ![Musical Interface](https://github.com/cpmpercussion/creative-mdns/raw/master/images/rnn-interface.jpg) -->
 
 ### Installing on Raspberry Pi
 
@@ -31,6 +34,8 @@ In addition to tensorflow, you also need `pandas`, `numpy` and `pySerial`. Then 
     python3 musical_mdn_interface_controller.py
 
 ## Assembly
+
+![](https://media.giphy.com/media/KeKzvZvpjpWcKgXFzR/giphy.gif)
 
 The EMPI consists of a Raspberry Pi, audio amplifier and speaker, input lever, and output lever, in a 3D-printed enclosure. The assembly materials and plans are below.
 
