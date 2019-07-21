@@ -46,10 +46,10 @@ def handle_prediction_message(address: str, *osc_arguments) -> None:
     osc_synth.send_message(PREDICTION_MESSAGE_ADDRESS, pred_loc)
     command_servo(pred_loc)
     if args.screen:
-        disp.set_cursor(0, 0)
-        disp.puts('EMPI.           ')
-        disp.set_cursor(0, 1)
-        disp.puts("RNN: {:10.4f}".format(str(osc_arguments[0])))
+        display.set_cursor(0, 0)
+        display.puts('EMPI.           ')
+        display.set_cursor(1, 0)
+        display.puts("RNN: {:11.4f}".format(str(osc_arguments[0])))
 
 
 def interaction_loop():
@@ -164,6 +164,8 @@ try:
 except KeyboardInterrupt:
     print("\nCtrl-C received... exiting.")
     thread_running = False
+    if args.screen:
+        display.clear()
     pass
 finally:
     print("\nDone, shutting down.")
