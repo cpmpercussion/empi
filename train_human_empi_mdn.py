@@ -10,19 +10,7 @@ import datetime
 import os
 os.environ['KMP_DUPLICATE_LIB_OK']='True'
 
-print("Script to train a predictive music interaction model for EMPI.")
-
-# Input and output to serial are bytes (0-255)
-# Output to Pd is a float (0-1)
-# parser = argparse.ArgumentParser(description='Trains a predictive music interaction model')
-# parser.add_argument('-d', '--dimension', type=int, dest='dimension', default=4,
-#                     help='The dimension of the data to model, must be >= 2.')
-# parser.add_argument('-s', '--source', dest='sourcedir', default='logs',
-#                     help='The source directory to obtain .log files')
-# parser.add_argument("--modelsize", default="s", help="The model size: xs, s, m, l, xl")
-# parser.add_argument('-e', "--earlystopping", dest='earlystopping', action="store_true", help="Use early stopping")
-# parser.add_argument('-p', "--patience", default=10, help="The number of epochs patience for early stopping.")
-# args = parser.parse_args()
+print("Script to train a human-sourced predictive music interaction model for EMPI.")
 
 EARLY_STOPPING = True
 PATIENCE = 10
