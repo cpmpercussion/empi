@@ -53,7 +53,7 @@ for local_file in os.listdir(log_location):
 
 # Save Performance Data in a compressed numpy file.
 dataset_location = 'datasets/'
-dataset_filename = 'empi-training-dataset-2d.npz'
+dataset_filename = 'empi-human-dataset.npz'
 
 # Input format is:
 # 0. 1. 2. ... n.

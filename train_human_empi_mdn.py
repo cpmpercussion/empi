@@ -16,7 +16,11 @@ EARLY_STOPPING = True
 PATIENCE = 10
 MODEL_SIZE = 'xs'
 DIMENSION = 2
-DATA_LOCATION = 'datasets/empi-training-dataset-2d.npz'
+HUMAN_DATA_LOCATION = 'datasets/empi-human-dataset.npz'
+SYNTHETIC_DATA_LOCATION = 'datasets/empi-synthetic-dataset.npz'
+
+DATA_LOCATION = SYNTHETIC_DATA_LOCATION
+#DATA_LOCATION = HUMAN_DATA_LOCATION
 
 # Import Keras
 import empi_mdrnn

@@ -43,3 +43,10 @@ The EMPI consists of a Raspberry Pi, audio amplifier and speaker, input lever, a
 
 - Raspberry Pi 3B+
 - Seeed Studios Grove Base Hat
+
+### Training
+
+1. download or generate some human data, then run `train_human_empi_mdn.py` to train the human model.
+2. use `train_synthetic_mdn_data` notebook to generate and train synthetic data.
+
+
