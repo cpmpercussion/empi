@@ -22,6 +22,9 @@ SYNTHETIC_DATA_LOCATION = 'datasets/empi-synthetic-dataset.npz'
 DATA_LOCATION = SYNTHETIC_DATA_LOCATION
 #DATA_LOCATION = HUMAN_DATA_LOCATION
 
+#MODEL_SUFFIX = "human"
+MODEL_SUFFIX = "synth"
+
 # Import Keras
 import empi_mdrnn
 import keras
@@ -116,7 +119,7 @@ model = empi_mdrnn.build_model(seq_len=SEQ_LEN,
                                print_summary=True)
 
 model_dir = "models/"
-model_name = "musicMDRNN" + "-dim" + str(DIMENSION) + "-layers" + str(mdrnn_layers) + "-units" + str(mdrnn_units) + "-mixtures" + str(mdrnn_mixes) + "-scale" + str(empi_mdrnn.SCALE_FACTOR)
+model_name = "musicMDRNN" + "-dim" + str(DIMENSION) + "-layers" + str(mdrnn_layers) + "-units" + str(mdrnn_units) + "-mixtures" + str(mdrnn_mixes) + "-scale" + str(empi_mdrnn.SCALE_FACTOR) + "-" + MODEL_SUFFIX
 date_string = datetime.datetime.today().strftime('%Y%m%d-%H_%M_%S')
 
 filepath = model_dir + model_name + "-E{epoch:02d}-VL{val_loss:.2f}.hdf5"
