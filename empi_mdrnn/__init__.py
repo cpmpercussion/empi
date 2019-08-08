@@ -78,7 +78,7 @@ def load_inference_model(model_file="", layers=2, units=512, mixtures=5, predict
     """Returns a Keras RoboJam model loaded from a file"""
     # TODO: make this parse the name to get the hyperparameters.
     # Decoding Model
-    decoder = decoder = build_model(seq_len=1, hidden_units=units, num_mixtures=mixtures, layers=layers, time_dist=False, inference=True, compile_model=False, print_summary=True, predict_moving=predict_moving)
+    decoder = build_model(seq_len=1, hidden_units=units, num_mixtures=mixtures, layers=layers, time_dist=False, inference=True, compile_model=False, print_summary=True, predict_moving=predict_moving)
     decoder.load_weights(model_file)
     return decoder
 

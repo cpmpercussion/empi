@@ -18,12 +18,16 @@ MODEL_SIZE = 'xs'
 DIMENSION = 2
 HUMAN_DATA_LOCATION = 'datasets/empi-human-dataset.npz'
 SYNTHETIC_DATA_LOCATION = 'datasets/empi-synthetic-dataset.npz'
+NOISE_DATA_LOCATION = 'datasets/empi-noise-dataset.npz'
 
-DATA_LOCATION = SYNTHETIC_DATA_LOCATION
+#DATA_LOCATION = SYNTHETIC_DATA_LOCATION
 #DATA_LOCATION = HUMAN_DATA_LOCATION
+DATA_LOCATION = NOISE_DATA_LOCATION
+
 
 #MODEL_SUFFIX = "human"
-MODEL_SUFFIX = "synth"
+#MODEL_SUFFIX = "synth"
+MODEL_SUFFIX = "noise"
 
 # Import Keras
 import empi_mdrnn
