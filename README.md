@@ -49,4 +49,21 @@ The EMPI consists of a Raspberry Pi, audio amplifier and speaker, input lever, a
 1. download or generate some human data, then run `train_human_empi_mdn.py` to train the human model.
 2. use `train_synthetic_mdn_data` notebook to generate and train synthetic data.
 
+### SSH Access
+
+You'll need ssh access to install EMPI: `ssh pi@rp1802.local`.
+
+### Install the service
+
+EMPI's startup script uses a systemd service to start automatically ([link](https://www.raspberrypi.org/documentation/linux/usage/systemd.md)).
+
+To override this for studies etc, run:
+
+	sudo systemctl stop empistartup.service
+
+The service file simply runs the script: `empi_2_run.sh`
+
+
+
+
 

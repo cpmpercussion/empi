@@ -24,7 +24,7 @@ PREDICTION_MESSAGE_ADDRESS = "/prediction"
 
 # Input and output to serial are bytes (0-255)
 # Output to Pd is a float (0-1)
-parser = argparse.ArgumentParser(description='Interface for EMPI 1.0 using Arduino and Serial Connection.')
+parser = argparse.ArgumentParser(description='Interface for EMPI 2.0 using Grove shield and GPIO connection.')
 parser.add_argument('-m', '--mirror', dest='user_to_servo', action="store_true", help="Mirror physical input on physical output for testing.")
 parser.add_argument('-v', '--verbose', dest='verbose', action='store_true', help='Verbose, print input and output for testing.')
 # OSC addresses
@@ -34,7 +34,8 @@ parser.add_argument("--synthip", default="localhost", help="The address of the s
 parser.add_argument("--synthport", type=int, default=3000, help="The port the synth.")
 parser.add_argument("--serverip", default="localhost", help="The address of this server.")
 parser.add_argument("--serverport", type=int, default=5000, help="The port this interface should listen on.")
-parser.add_argument("--screen", dest="screen", action="store_true", help="Use OLED display for showing data.")
+parser.add_argument("--screen", dest="screen", default=False, action="store_true", help="Use OLED display for showing data.")
+parser.add_argument("--servo", dest="servo", default=False, action="store_true", help="Use the servomotor for embodied output")
 args = parser.parse_args()
 
 
@@ -44,7 +45,8 @@ def handle_prediction_message(address: str, *osc_arguments) -> None:
         print("Prediction:", time.time(), ','.join(map(str, osc_arguments)))
     pred_loc = osc_arguments[0]
     osc_synth.send_message(PREDICTION_MESSAGE_ADDRESS, pred_loc)
-    command_servo(pred_loc)
+    if args.servo:
+        command_servo(pred_loc)
     if args.screen:
         display.set_cursor(0, 0)
         display.puts('EMPI.           ')
@@ -73,7 +75,6 @@ def interaction_loop():
 
 
 # Functions for sending and receving from levers.
-
 
 class GroveServo:
     INIT_DUTY_MS = 1.5  # in ms
@@ -133,7 +134,9 @@ last_rnn_value = 0
 # define SERVOMIN 5
 # define SERVOMAX 175
 
+## Setup ADC
 grove_adc = ADC()
+## Setup Servo
 grove_servo = GroveServo(SERVO_CHANNEL)
 
 
@@ -150,7 +153,6 @@ thread_running = False
 print("starting up.")
 if args.verbose:
     print("Verbose mode on.")
-
 if args.screen:
     display = grove_display.setup_display()
 
