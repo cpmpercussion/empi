@@ -10,7 +10,7 @@
 #X obj 441 136 print;
 #X msg 441 112 turned dsp on.;
 #X obj 457 40 delay 2000;
-#X obj 226 460 select 0;
+#X obj 228 460 select 0;
 #X msg 129 247 listen 3000;
 #X obj 23 87 oscformat interface;
 #X obj 110 45 bng 30 250 50 0 empty empty test 32 7 0 10 -257985 -1
@@ -23,10 +23,10 @@
 #X obj 173 65 / 1000;
 #X obj 173 86 oscformat prediction;
 #X obj 129 362 route interface prediction;
-#X obj 543 326 ctlin 9 11;
+#X obj 552 322 ctlin 9 11;
 #X floatatom 543 347 5 0 0 0 - - -;
 #X obj 555 366 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 9700 1;
+-1 -1 7300 1;
 #X obj 543 384 / 127;
 #X obj 543 425 s osctestinput;
 #X obj 543 405 oscformat interface;
@@ -44,7 +44,7 @@
 #X restore 170 595 pd output_stage;
 #X floatatom 545 474 5 0 0 0 - - -;
 #X obj 548 491 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 12700 1;
+-1 -1 7400 1;
 #X obj 545 511 / 127;
 #X obj 545 552 s osctestinput;
 #X obj 545 532 oscformat prediction;
@@ -52,6 +52,15 @@
 #X obj 73 540 lever_synth_engine2 60 24;
 #X text 22 17 parses OSC messages to play in the an fmsynth.;
 #X obj 288 533 lever_synth_engine2 36 24;
+#X obj 539 297 ctlin 0 1;
+#X text 604 299 arduino;
+#X text 622 322 xtouch debug;
+#X text 615 452 xtouch debug;
+#X obj 543 643 ctlout 0 0;
+#X obj 229 387 s pred_value_float;
+#X obj 542 586 r pred_value_float;
+#X obj 543 605 * 127;
+#X obj 543 624 int;
 #X connect 0 0 1 0;
 #X connect 1 0 2 0;
 #X connect 2 0 21 0;
@@ -73,6 +82,7 @@
 #X connect 20 0 5 0;
 #X connect 21 0 35 0;
 #X connect 21 1 11 0;
+#X connect 21 1 43 0;
 #X connect 22 0 23 0;
 #X connect 23 0 24 0;
 #X connect 24 0 25 0;
@@ -87,3 +97,7 @@
 #X connect 35 1 28 1;
 #X connect 37 0 28 1;
 #X connect 37 0 28 0;
+#X connect 38 0 23 0;
+#X connect 44 0 45 0;
+#X connect 45 0 46 0;
+#X connect 46 0 42 0;
