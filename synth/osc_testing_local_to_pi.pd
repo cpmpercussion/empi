@@ -1,0 +1,39 @@
+#N canvas 809 91 706 550 10;
+#X msg 137 246 disconnect;
+#X obj 129 273 netsend -u -b;
+#X obj 130 172 list prepend send;
+#X obj 130 197 list trim;
+#X floatatom 25 35 5 0 0 0 - - -;
+#X obj 37 54 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 10900 1;
+#X obj 25 72 / 127;
+#X msg 138 222 connect rp1802.local 3000;
+#X obj 27 94 oscformat prediction;
+#X floatatom 213 32 5 0 0 0 - - -;
+#X obj 225 51 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 11400 1;
+#X obj 213 69 / 127;
+#X obj 215 91 oscformat interface;
+#X msg 308 216 connect rp1802.local 5000;
+#X floatatom 386 34 5 0 0 0 - - -;
+#X obj 398 53 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 5800 1;
+#X obj 386 71 / 127;
+#X obj 388 92 oscformat prediction;
+#X connect 0 0 1 0;
+#X connect 2 0 3 0;
+#X connect 3 0 1 0;
+#X connect 4 0 5 0;
+#X connect 5 0 6 0;
+#X connect 6 0 8 0;
+#X connect 7 0 1 0;
+#X connect 8 0 2 0;
+#X connect 9 0 10 0;
+#X connect 10 0 11 0;
+#X connect 11 0 12 0;
+#X connect 12 0 2 0;
+#X connect 13 0 1 0;
+#X connect 14 0 15 0;
+#X connect 15 0 16 0;
+#X connect 16 0 17 0;
+#X connect 17 0 2 0;

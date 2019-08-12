@@ -63,7 +63,37 @@ To override this for studies etc, run:
 
 The service file simply runs the script: `empi_2_run.sh`
 
+#### Start just Pd:
 
+	./start_pd.sh 
+
+	pd -nogui synth/lever_synthesis.pd &
+
+#### Start just the prediction server:
+
+	python3 predictive_music_model.py -d=2 --modelfile="models/musicMDRNN-dim2-layers2-units32-mixtures5-scale10-human.h5" --modelsize xs --call --log --verbose &
+
+
+#### Stop Pd and Python:
+
+	pkill -u pi pd
+	pkill -u pi python3
+	pkill -u pi python3
+
+
+#### Start prediction server on local system:
+
+	python3 predictive_music_model.py -d=2 --modelfile="models/musicMDRNN-dim2-layers2-units32-mixtures5-scale10-human.h5" --modelsize xs --call --log --verbose --clientip="rp1802.local"
+
+	python3 predictive_music_model.py -d=2 --modelfile="models/musicMDRNN-dim2-layers2-units32-mixtures5-scale10-synth.h5" --modelsize xs --call --log --verbose --clientip="rp1802.local"
+
+	python3 predictive_music_model.py -d=2 --modelfile="models/musicMDRNN-dim2-layers2-units32-mixtures5-scale10-noise.h5" --modelsize xs --call --log --verbose --clientip="rp1802.local" --serverip="voyager.local"
+
+#### Start RNN run loop to send/receive from local system
+
+	python3 empi_2_runloop.py --synthip="127.0.0.1" --serverip="rp1802.local" -v
+
+	python3 empi_2_runloop.py --synthip="127.0.0.1" --serverip="rp1802.local" --predictorip="voyager.local" -v
 
 
 

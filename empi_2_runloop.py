@@ -30,10 +30,10 @@ parser.add_argument('-v', '--verbose', dest='verbose', action='store_true', help
 # OSC addresses
 parser.add_argument("--predictorip", default="localhost", help="The address of the IMPS prediction system.")
 parser.add_argument("--predictorport", type=int, default=5001, help="The port the IMPS server is listening on.")
-parser.add_argument("--synthip", default="localhost", help="The address of the synth.")
+parser.add_argument("--synthip", default="127.0.0.1", help="The address of the synth.")
 parser.add_argument("--synthport", type=int, default=3000, help="The port the synth.")
-parser.add_argument("--serverip", default="localhost", help="The address of this server.")
-parser.add_argument("--serverport", type=int, default=5000, help="The port this interface should listen on.")
+parser.add_argument("--serverip", dest='serverip', default="localhost", help="The address of this server.")
+parser.add_argument("--serverport", dest='serverport', type=int, default=5000, help="The port this interface should listen on.")
 parser.add_argument("--screen", dest="screen", default=False, action="store_true", help="Use OLED display for showing data.")
 parser.add_argument("--servo", dest="servo", default=False, action="store_true", help="Use the servomotor for embodied output")
 args = parser.parse_args()
@@ -155,7 +155,6 @@ if args.verbose:
     print("Verbose mode on.")
 if args.screen:
     display = grove_display.setup_display()
-
 try:
     thread_running = True
     server_thread.start()
