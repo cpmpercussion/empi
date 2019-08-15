@@ -18,7 +18,7 @@ GPIO.setmode(GPIO.BCM)
 
 
 parser = argparse.ArgumentParser(description='Interface for EMPI 2.0 using Grove shield and GPIO connection.')
-parser.add_argument('-m', '--mirror', dest='user_to_servo', action="store_true", help="Mirror physical input on physical output for testing.")
+parser.add_argument('-m', '--mirror', dest='mirror', action="store_true", help="Mirror physical input on physical output for testing.")
 parser.add_argument('-v', '--verbose', dest='verbose', action='store_true', help='Verbose, print input and output for testing.')
 parser.add_argument("--screen", dest="screen", default=False, action="store_true", help="Use OLED display for showing data.")
 parser.add_argument("--servo", dest="servo", default=False, action="store_true", help="Use the servomotor for embodied output")
@@ -107,6 +107,8 @@ def interaction_loop():
         midi_loc = int(userloc * 127)
         midi_event = alsamidi.noteevent(1, 1, midi_loc, 0, 0)
         alsaseq.output(midi_event)
+        if args.mirror:
+            last_received_midi = midi_loc
     # Read incoming midi.
     while(alsaseq.inputpending() > 0):
         midi_event = alsaseq.input()
