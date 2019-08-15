@@ -1,0 +1,15 @@
+{
+    "cortex-debug.armToolchainPath": "/Users/charles/.platformio/packages/toolchain-gccarmnoneeabi/bin",
+    "cortex-debug.stutilPath": "/Users/charles/.platformio/packages/tool-stlink/bin/st-util",
+    "cortex-debug.openocdPath": "/Users/charles/.platformio/packages/tool-openocd/bin/openocd",
+    "comp2300.gdb.server": "stutil",
+    "platformio-ide.autoRebuildAutocompleteIndex": false,
+    "files.associations": {
+        "*.S": "arm"
+    },
+    "yaml.schemas": {},
+    "terminal.integrated.env.osx": {
+        "PATH": "/Users/charles/.platformio/penv/bin:/Users/charles/.platformio/penv:/Users/charles/.platformio/penv/bin:/Users/charles/.platformio/penv:/Users/charles/Library/Python/3.7/bin:/Users/charles/miniconda3/bin:/Users/charles/.rbenv/shims:/Users/charles/.rbenv/bin:/Users/charles/.gem/ruby/2.4.0/bin:/usr/local/heroku/bin:/users/charles/opt/GNAT/2019/bin:/Users/charles/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/X11/bin:/Library/TeX/texbin",
+        "PLATFORMIO_CALLER": "vscode"
+    }
+}
