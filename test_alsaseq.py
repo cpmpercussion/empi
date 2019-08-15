@@ -116,6 +116,8 @@ def interaction_loop():
         if ev_type == 5:
             last_received_midi = midi_event[8][2]
         # do something with it
+        if args.verbose:
+            print("Output:", last_received_midi)
     command_servo(last_received_midi)
 
 # define SERVOMIN 5
