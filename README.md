@@ -20,20 +20,7 @@ Part of this work is concerned with using these networks in a Raspberry Pi-based
 
 ### Installing on Raspberry Pi
 
-Some of these files are intended to be used on a Raspberry Pi. Installing Tensorflow on RPi is tricky given that there is no official build, however, various unofficial builds can be found.
-
-For our work, we use `DeftWork`'s build of Tensorflow 1.3.0 as follows:
-
-    wget https://github.com/DeftWork/rpi-tensorflow/raw/master/tensorflow-1.3.0-cp34-cp34m-linux_armv7l.whl
-    sudo pip3 install tensorflow-1.3.0-cp34-cp34m-linux_armv7l.whl
-
-There's build instructions for Raspberry courtesy of [samjabrahams](https://github.com/samjabrahams/tensorflow-on-raspberry-pi) and more info on a possible Docker solution from [DeftWork](https://github.com/DeftWork/rpi-tensorflow). Thanks internets!
-
-In addition to tensorflow, you also need `pandas`, `numpy` and `pySerial`. Then the interface controller can be run like so:
-
-    python3 musical_mdn_interface_controller.py
-
-## Assembly
+### Assembly
 
 ![](https://media.giphy.com/media/KeKzvZvpjpWcKgXFzR/giphy.gif)
 
@@ -52,6 +39,19 @@ The EMPI consists of a Raspberry Pi, audio amplifier and speaker, input lever, a
 ### SSH Access
 
 You'll need ssh access to install EMPI: `ssh pi@rp1802.local`.
+
+### Raspbian Packages
+
+	sudo apt-get install -y python3-numpy python3-pandas puredata
+
+### Python Packages
+
+- [Tensorflow 1.14.0](https://github.com/PINTO0309/Tensorflow-bin)
+- [Tensorflow probability 0.7.0]()
+
+	wget https://github.com/PINTO0309/Tensorflow-bin/raw/master/tensorflow-1.14.0-cp37-cp37m-linux_armv7l.whl
+	sudo pip3 install tensorflow-1.14.0-cp37-cp37m-linux_armv7l.whl
+
 
 ### Install the service
 
