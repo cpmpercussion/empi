@@ -106,10 +106,11 @@ def interaction_loop():
             print("Input:", userloc)
         # Send MIDI to synth.
         midi_loc = int(userloc * 127)
-        midi_event = alsamidi.noteevent(1, 1, midi_loc, 0, 0)
-        print("MIDIOUT:", midi_event)
-        midi_ctl_event = (10, 0, 0, 253, (0, 0), (0, 0), (0, 0), (0, 0, 0, 0, 0, midi_loc))
-        alsaseq.output(midi_event)
+        #midi_event = alsamidi.noteevent(1, 1, midi_loc, 0, 0)
+        midi_ctl_event = (10, 1, 0, 0, (0, 0), (0, 0), (0, 0), (0, 0, 0, 0, 0, midi_loc))
+        #alsaseq.output(midi_event)
+        alsaseq.output(midi_ctl_event)
+        print("MIDIOUT:", midi_ctl_event)
         if args.mirror:
             last_received_midi = midi_loc
     # Read incoming midi.
