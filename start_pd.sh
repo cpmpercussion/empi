@@ -7,7 +7,8 @@
 # https://github.com/arduino-libraries/MIDIUSB
 # https://github.com/BlokasLabs/USBMIDI
 # pkill -u pi pd
-pd -nogui -alsamidi -audiooutdev 1 -mididev 128 -noadc -open synth/lever_synthesis_midi.pd &
+pd -nogui -alsamidi -audiooutdev 1 -mididev 128 -noadc -nrt -open synth/lever_synthesis_midi.pd &
+sleep 4
 aconnect EMPIMIDI:1 Pure\ Data:0
 aconnect Pure\ Data:1 EMPIMIDI:0
 # https://alsa.opensrc.org/AlsaMidiOverview
