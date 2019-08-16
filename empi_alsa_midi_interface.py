@@ -106,11 +106,9 @@ def interaction_loop():
             print("Input:", userloc)
         # Send MIDI to synth.
         midi_loc = int(userloc * 127)
-        #midi_event = alsamidi.noteevent(1, 1, midi_loc, 0, 0)
         midi_ctl_event = (10, 1, 0, 0, (0, 0), (0, 0), (0, 0), (0, 0, 0, 0, 0, midi_loc))
-        #alsaseq.output(midi_event)
         alsaseq.output(midi_ctl_event)
-        print("MIDIOUT:", midi_ctl_event)
+        # print("MIDIOUT:", midi_ctl_event)
         if args.mirror:
             last_received_midi = midi_loc
     # Read incoming midi.
@@ -122,15 +120,12 @@ def interaction_loop():
         # do something with it
         if args.verbose:
             print("Servo:", last_received_midi)
-            print("MIDI:", midi_event)
+            # print("MIDI:", midi_event)
     command_servo(last_received_midi)
 
 # define SERVOMIN 5
 # define SERVOMAX 175
-
-#MIDI: (10, 0, 0, 253, (0, 0), (129, 1), (128, 0), (0, 0, 0, 0, 0, 48))
-#Output: 64
-#MIDI: (6, 0, 0, 253, (0, 0), (129, 1), (128, 0), (0, 1, 48, 0, 0))
+# MIDI: (10, 0, 0, 253, (0, 0), (129, 1), (128, 0), (0, 0, 0, 0, 0, 48))
 
 
 # Setup ADC and Servo
