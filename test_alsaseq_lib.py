@@ -118,6 +118,7 @@ def interaction_loop():
         # do something with it
         if args.verbose:
             print("Output:", last_received_midi)
+            print("MIDI:", midi_event)
     command_servo(last_received_midi)
 
 # define SERVOMIN 5
