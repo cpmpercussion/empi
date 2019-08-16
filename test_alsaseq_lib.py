@@ -92,6 +92,7 @@ def read_lever():
 
 
 last_received_midi = 64
+SND_SEQ_EVENT_CONTROLLER = 10
 
 
 def interaction_loop():
@@ -112,17 +113,21 @@ def interaction_loop():
     # Read incoming midi.
     while(alsaseq.inputpending() > 0):
         midi_event = alsaseq.input()
-        ev_type = midi_event[0]
-        if ev_type == 5:
-            last_received_midi = midi_event[8][2]
+        if midi_event[0] == SND_SEQ_EVENT_CONTROLLER:
+            # just take the controller value
+            last_received_midi = midi_event[7][5]
         # do something with it
         if args.verbose:
-            print("Output:", last_received_midi)
+            print("Servo:", last_received_midi)
             print("MIDI:", midi_event)
     command_servo(last_received_midi)
 
 # define SERVOMIN 5
 # define SERVOMAX 175
+
+#MIDI: (10, 0, 0, 253, (0, 0), (129, 1), (128, 0), (0, 0, 0, 0, 0, 48))
+#Output: 64
+#MIDI: (6, 0, 0, 253, (0, 0), (129, 1), (128, 0), (0, 1, 48, 0, 0))
 
 
 # Setup ADC and Servo
