@@ -1,7 +1,7 @@
 #!/bin/bash
-# servo=0
+servo=1 # default on
 # 0 = off, 1 = on, 2 = disconnected
-# model=0
+model=2 # default off
 # 0 = noise, 1 = synth, 2 = human
 # Process arguments
 for arg in "$@"
@@ -21,17 +21,20 @@ do
     elif [ "$arg" == "--noservo" ]
     then
         echo "No Servo Mode"
-        model=0
+        servo=0
     elif [ "$arg" == "--servo" ]
     then
         echo "Servo Mode"
-        model=1
+        servo=1
     elif [ "$arg" == "--disco" ]
     then
         echo "Disconnected Servo Mode"
-        model=2
+        servo=2
     fi
 done
+
+# echo $model
+# echo $servo
 
 # Start opening software.
 cd /home/pi/empi
