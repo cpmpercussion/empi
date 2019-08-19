@@ -6,6 +6,7 @@
 # view connections: aconnect -l
 # https://github.com/arduino-libraries/MIDIUSB
 # https://github.com/BlokasLabs/USBMIDI
+# https://llllllll.co/t/raspberry-pi-3-optimization-for-audio-pure-data/11222
 # pkill -u pi pd
 pd -nogui -alsamidi -audiooutdev 1 -audiobuf 50 -mididev 128 -noadc -nrt -verbose -open synth/lever_synthesis_midi.pd &
 sleep 4
