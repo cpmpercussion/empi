@@ -133,7 +133,8 @@ def interaction_loop():
 
 # Setup ADC and Servo
 grove_adc = ADC()
-grove_servo = GroveServo(SERVO_CHANNEL)
+if args.servo:
+    grove_servo = GroveServo(SERVO_CHANNEL)
 
 print("starting up.")
 if args.verbose:
