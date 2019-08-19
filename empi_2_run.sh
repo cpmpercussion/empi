@@ -43,17 +43,17 @@ cd /home/pi/empi
 if [ $servo -eq 0 ]
 then
     ## no servo
-    python3 empi_alsa_midi_interface.py &
+    python3 empi_alsa_midi_interface.py --screen &
     echo "No Servo Mode"
 elif [ $servo -eq 1 ]
 then
     ## connected servo
-    python3 empi_alsa_midi_interface.py --servo &
+    python3 empi_alsa_midi_interface.py --servo --screen &
     echo "Servo Mode"
 elif [ $servo -eq 2 ]
 then
     ## disconnect servo
-    python3 empi_alsa_midi_interface.py & 
+    python3 empi_alsa_midi_interface.py --screen & 
 else
     echo "No servo mode chosen, shutting down."
 fi
