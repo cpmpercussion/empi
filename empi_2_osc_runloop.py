@@ -155,6 +155,8 @@ if args.verbose:
     print("Verbose mode on.")
 if args.screen:
     display = grove_display.setup_display()
+    display.set_cursor(0, 0)
+    display.puts('EMPI Ready.')
 try:
     thread_running = True
     server_thread.start()

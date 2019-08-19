@@ -140,6 +140,8 @@ if args.verbose:
     print("verbose mode on.")
 if args.screen:
     display = grove_display.setup_display()
+    display.set_cursor(0, 0)
+    display.puts('EMPI Ready.')
 # Run loop
 try:
     print("interface started.")

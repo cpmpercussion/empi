@@ -271,7 +271,7 @@ class GroveOledDisplay128x64(object):
 def setup_display():
     disp = GroveOledDisplay128x64()
     disp.set_cursor(0, 0)
-    disp.puts('EMPI Loading... ')
+    #disp.puts('EMPI Loading... ')
     #display.set_cursor(1, 4)
     #display.puts('world')
     #disp.clear()
