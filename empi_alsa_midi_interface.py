@@ -121,7 +121,10 @@ def interaction_loop():
         if args.verbose:
             print("Servo:", last_received_midi)
             # print("MIDI:", midi_event)
-    command_servo(last_received_midi)
+    if args.servo:
+        # Only send to servo if args suggest it.
+        # Only act on most recent message.
+        command_servo(last_received_midi)
 
 # define SERVOMIN 5
 # define SERVOMAX 175
