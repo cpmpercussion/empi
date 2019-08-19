@@ -1,4 +1,4 @@
-#N canvas 209 679 506 520 10;
+#N canvas 339 217 506 520 10;
 #X obj 155 445 outlet~;
 #X obj 217 444 outlet~;
 #X obj 180 35 inlet;
@@ -21,7 +21,7 @@
 #X obj 326 44 t b b;
 #X obj 352 174 * 127;
 #X obj 321 80 delay 100;
-#X msg 304 240 1 100 \, 0 250 100;
+#X msg 290 228 1 100 \, 0 250 100;
 #X obj 186 393 *~ 0.5;
 #N canvas 29 43 450 300 vib 0;
 #X obj 144 64 inlet~;
@@ -43,9 +43,13 @@
 #X obj 130 232 loadbang;
 #X obj 193 353 vcf~ 2;
 #X obj 184 324 fmsynth 1.05 0.15;
+#X obj 344 287 vline~;
+#X msg 123 35 0.5;
+#X msg 341 249 1 400 \, 0 250 400;
 #X connect 2 0 3 0;
 #X connect 3 0 7 0;
 #X connect 3 1 21 0;
+#X connect 3 1 31 0;
 #X connect 4 0 12 0;
 #X connect 6 0 8 0;
 #X connect 7 0 6 0;
@@ -76,3 +80,6 @@
 #X connect 26 0 25 0;
 #X connect 27 0 22 0;
 #X connect 28 0 27 0;
+#X connect 29 0 28 2;
+#X connect 30 0 3 0;
+#X connect 31 0 29 0;

@@ -1,4 +1,4 @@
-#N canvas 92 113 609 766 10;
+#N canvas 583 29 609 766 10;
 #X obj 22 208 netreceive -u -b;
 #X obj 22 254 oscparse;
 #X obj 22 275 list trim;
@@ -26,7 +26,7 @@
 #X obj 397 183 ctlin 9 11;
 #X floatatom 397 208 5 0 0 0 - - -;
 #X obj 400 232 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 0 1;
+-1 -1 5700 1;
 #X obj 397 256 / 127;
 #X obj 397 302 s osctestinput;
 #X obj 397 278 oscformat interface;
@@ -44,7 +44,7 @@
 #X restore 127 477 pd output_stage;
 #X floatatom 399 346 5 0 0 0 - - -;
 #X obj 402 363 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 0 1;
+-1 -1 8600 1;
 #X obj 399 383 / 127;
 #X obj 399 424 s osctestinput;
 #X obj 399 404 oscformat prediction;
@@ -73,7 +73,7 @@
 #X connect 3 0 2 0;
 #X connect 5 0 2 0;
 #X restore 174 115 pd prediction_osc_in;
-#N canvas 186 182 327 239 interface_osc_out 0;
+#N canvas 186 182 327 239 interface_osc_out 1;
 #X obj 20 185 netsend -u -b;
 #X obj 21 112 list prepend send;
 #X obj 21 137 list trim;
@@ -89,6 +89,8 @@
 #X obj 150 55 inlet;
 #X obj 11 1 r osc_output;
 #X obj 193 77 delay 1000;
+#X obj 39 214 select 0;
+#X connect 0 0 14 0;
 #X connect 1 0 2 0;
 #X connect 2 0 0 0;
 #X connect 3 0 4 0;
@@ -102,6 +104,7 @@
 #X connect 11 0 9 0;
 #X connect 12 0 1 0;
 #X connect 13 0 9 0;
+#X connect 14 0 9 0;
 #X restore 174 139 pd interface_osc_out;
 #X obj 490 302 s osc_output;
 #X obj 397 516 spigot;
@@ -117,6 +120,8 @@
 #X obj 186 419 lever_synth_engine2 48 24;
 #X obj 397 137 notein 1;
 #X obj 397 158 ctlin;
+#X obj 400 559 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 9000 1;
 #X connect 0 0 1 0;
 #X connect 1 0 2 0;
 #X connect 2 0 21 0;
@@ -154,6 +159,7 @@
 #X connect 42 0 43 0;
 #X connect 43 0 44 0;
 #X connect 44 0 48 0;
+#X connect 44 0 60 0;
 #X connect 48 0 40 0;
 #X connect 49 0 11 0;
 #X connect 50 0 35 0;
