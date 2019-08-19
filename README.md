@@ -95,5 +95,19 @@ The service file simply runs the script: `empi_2_run.sh`
 
 	python3 empi_2_runloop.py --synthip="127.0.0.1" --serverip="rp1802.local" --predictorip="voyager.local" -v
 
+### Study Procedure:
 
+1. Connect to EMPI over ssh: `ssh pi@rp1802.local`
+2. Cancel existing EMPI process with: `sudo systemctl stop empistartup.service`
+3. Go to EMPI directory: `cd empi`
+4. Choose commmand for required option from the list below.
+5. It takes 25s to load the system on the RPi 3B+
 
+- Human, no servo: `./empi_2_run.sh --human --noservo`
+- Synth, no servo: `./empi_2_run.sh --synth --noservo`
+- Noise, no servo: `./empi_2_run.sh --noise --noservo`
+- Human, servo: `./empi_2_run.sh --human --servo`
+- Synth, servo: `./empi_2_run.sh --synth --servo`
+- Noise, servo: `./empi_2_run.sh --noise --servo`
+
+Finally, shutdown before turning off: `sudo shutdown -h now`
