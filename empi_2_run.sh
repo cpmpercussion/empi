@@ -1,7 +1,7 @@
 #!/bin/bash
-servo = 0
+servo=0
 # 0 = off, 1 = on, 2 = disconnected
-model = 0
+model=0
 # 0 = noise, 1 = synth, 2 = human
 # Process arguments
 for arg in "$@"
@@ -9,27 +9,27 @@ do
     if [ "$arg" == "--noise" ]
     then
         echo "Noise Model"
-        model = 0
+        model=0
     elif [ "$arg" == "--synth" ]
     then
         echo "Synth Model"
-        model = 1
+        model=1
     elif [ "$arg" == "--human" ]
     then
         echo "Human Model"
-        model = 2
+        model=2
     elif [ "$arg" == "--noservo" ]
     then
         echo "No servo mode"
-        model = 0
+        model=0
     elif [ "$arg" == "--servo" ]
     then
         echo "Servo mode"
-        model = 1
+        model=1
     elif [ "$arg" == "--disco" ]
     then
         echo "Disconnected servo mode"
-        model = 2
+        model=2
     fi
 done
 
