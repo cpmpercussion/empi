@@ -1,7 +1,7 @@
 #!/bin/bash
-servo=0
+# servo=0
 # 0 = off, 1 = on, 2 = disconnected
-model=0
+# model=0
 # 0 = noise, 1 = synth, 2 = human
 # Process arguments
 for arg in "$@"
