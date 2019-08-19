@@ -52,7 +52,6 @@ You'll need ssh access to install EMPI: `ssh pi@rp1802.local`.
 	wget https://github.com/PINTO0309/Tensorflow-bin/raw/master/tensorflow-1.14.0-cp37-cp37m-linux_armv7l.whl
 	sudo pip3 install tensorflow-1.14.0-cp37-cp37m-linux_armv7l.whl
 
-
 ### Install the service
 
 EMPI's startup script uses a systemd service to start automatically ([link](https://www.raspberrypi.org/documentation/linux/usage/systemd.md)).
@@ -79,7 +78,6 @@ The service file simply runs the script: `empi_2_run.sh`
 	pkill -u pi pd
 	pkill -u pi python3
 	pkill -u pi python3
-
 
 #### Start prediction server on local system:
 
