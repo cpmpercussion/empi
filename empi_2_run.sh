@@ -20,15 +20,15 @@ do
         model=2
     elif [ "$arg" == "--noservo" ]
     then
-        echo "No servo mode"
+        echo "No Servo Mode"
         model=0
     elif [ "$arg" == "--servo" ]
     then
-        echo "Servo mode"
+        echo "Servo Mode"
         model=1
     elif [ "$arg" == "--disco" ]
     then
-        echo "Disconnected servo mode"
+        echo "Disconnected Servo Mode"
         model=2
     fi
 done
@@ -41,10 +41,12 @@ if [ $servo -eq 0 ]
 then
     ## no servo
     python3 empi_alsa_midi_interface.py &
+    echo "No Servo Mode"
 elif [ $servo -eq 1 ]
 then
     ## connected servo
     python3 empi_alsa_midi_interface.py --servo &
+    echo "Servo Mode"
 elif [ $servo -eq 2 ]
 then
     ## disconnect servo
@@ -60,13 +62,16 @@ sleep 3
 
 # Start prediction server
 if [ $model -eq 0 ]
-then 
+then
+    echo "Noise Model"
     python3 predictive_music_model.py -d=2 --modelfile="models/musicMDRNN-dim2-layers2-units32-mixtures5-scale10-noise.h5" --modelsize xs --call --log --verbose
 elif [ $model -eq 1 ]
 then
+    echo "Synth Model"
     python3 predictive_music_model.py -d=2 --modelfile="models/musicMDRNN-dim2-layers2-units32-mixtures5-scale10-synth.h5" --modelsize xs --call --log --verbose
 elif [ $model -eq 2 ]
 then
+    echo "Human Model"
     python3 predictive_music_model.py -d=2 --modelfile="models/musicMDRNN-dim2-layers2-units32-mixtures5-scale10-human.h5" --modelsize xs --call --log --verbose
 else
     echo "No model chosen, shutting down."
