@@ -10,8 +10,8 @@
 # pkill -u pi pd
 pd -nogui -alsamidi -audiooutdev 1 -audiobuf 50 -mididev 128 -noadc -nrt -verbose -open synth/lever_synthesis_midi.pd &
 sleep 4
-aconnect SparkFun\ Pro\ Micro:1 Pure\ Data:0
-aconnect Pure\ Data:1 SparkFun\ Pro\ Micro:0
+aconnect SparkFun\ Pro\ Micro:0:1 Pure\ Data:0
+aconnect Pure\ Data:1 SparkFun\ Pro\ Micro:0:0
 # https://alsa.opensrc.org/AlsaMidiOverview
 
 # python3 predictive_music_model.py -d=2 --modelfile="models/musicMDRNN-dim2-layers2-units32-mixtures5-scale10-human.h5" --modelsize xs --call --log --verbose

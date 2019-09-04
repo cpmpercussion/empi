@@ -52,6 +52,8 @@ You'll need ssh access to install EMPI: `ssh pi@rp1802.local`.
 	wget https://github.com/PINTO0309/Tensorflow-bin/raw/master/tensorflow-1.14.0-cp37-cp37m-linux_armv7l.whl
 	sudo pip3 install tensorflow-1.14.0-cp37-cp37m-linux_armv7l.whl
 
+- Keras-MDN-Layer: `pip3 install -U keras-mdn-layer`
+
 ### Install the service
 
 EMPI's startup script uses a [systemd service](https://www.raspberrypi.org/documentation/linux/usage/systemd.md) to start automatically.

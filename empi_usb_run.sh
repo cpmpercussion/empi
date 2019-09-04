@@ -63,8 +63,8 @@ cd /home/pi/empi
 # Start Pd
 pd -nogui -alsamidi -audiooutdev 1 -audiobuf 50 -mididev 128 -noadc -nrt -verbose -open synth/lever_synthesis_midi.pd &
 sleep 4
-aconnect SparkFun\ Pro\ Micro:1 Pure\ Data:0
-aconnect Pure\ Data:1 SparkFun\ Pro\ Micro:0
+aconnect SparkFun\ Pro\ Micro:0:1 Pure\ Data:0
+aconnect Pure\ Data:1 SparkFun\ Pro\ Micro:0:0
 # wait a bit
 sleep 3
 
