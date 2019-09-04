@@ -54,13 +54,26 @@ You'll need ssh access to install EMPI: `ssh pi@rp1802.local`.
 
 ### Install the service
 
-EMPI's startup script uses a systemd service to start automatically ([link](https://www.raspberrypi.org/documentation/linux/usage/systemd.md)).
+EMPI's startup script uses a [systemd service](https://www.raspberrypi.org/documentation/linux/usage/systemd.md) to start automatically.
 
-To override this for studies etc, run:
+To install type:
 
-	sudo systemctl stop empistartup.service
+	sudo cp empistartup.service /etc/systemd/system/empistartup.service
+	sudo systemctl enable empistartup
 
-The service file simply runs the script: `empi_2_run.sh`
+To start manually type:
+
+	sudo systemctl start empistartup
+
+To stop manually for studies etc, run:
+
+	sudo systemctl stop empistartup
+
+The service file simply runs the script: `empi_2_run.sh` with default arguments.
+
+To follow the stdout from the service, run:
+
+	sudo journalctl -f -u empistartup
 
 #### Start just Pd:
 
@@ -71,7 +84,6 @@ The service file simply runs the script: `empi_2_run.sh`
 #### Start just the prediction server:
 
 	python3 predictive_music_model.py -d=2 --modelfile="models/musicMDRNN-dim2-layers2-units32-mixtures5-scale10-human.h5" --modelsize xs --call --log --verbose &
-
 
 #### Stop Pd and Python:
 
