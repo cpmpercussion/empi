@@ -1,0 +1,14 @@
+[Unit]
+Description=EMPI Startup Script
+After=multi-user.target
+
+[Service]
+ExecStart=/bin/bash /home/pi/empi/empi_usb_run.sh
+WorkingDirectory=/home/pi/empi
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=pi
+
+[Install]
+WantedBy=multi-user.target
