@@ -30,6 +30,7 @@ The EMPI consists of a Raspberry Pi, audio amplifier and speaker, input lever, a
 
 - Raspberry Pi 3B+
 - Seeed Studios Grove Base Hat
+- Alternatively, Arduino Pro Micro MIDI interface over USB.
 
 ### Training
 
@@ -38,21 +39,35 @@ The EMPI consists of a Raspberry Pi, audio amplifier and speaker, input lever, a
 
 ### SSH Access
 
-You'll need ssh access to install EMPI: `ssh pi@rp1802.local`.
+You'll need ssh access to install EMPI: `ssh pi@rp1802.local`, `ssh pi@epecpi.local`
+
+Good to use the [headless install hints](https://www.raspberrypi.org/documentation/configuration/wireless/headless.md)
 
 ### Raspbian Packages
 
-	sudo apt-get install -y python3-numpy python3-pandas puredata
+	sudo apt-get install -y python3-numpy python3-pandas python3-pip puredata git
 
 ### Python Packages
 
-- [Tensorflow 1.14.0](https://github.com/PINTO0309/Tensorflow-bin)
-- [Tensorflow probability 0.7.0]()
+- [Tensorflow 1.14.0](https://github.com/PINTO0309/Tensorflow-bin) - slightly weird instructions while there is no piwheels build for TF 1.14.0 on Python 3.7.
 
+	sudo apt-get install -y libhdf5-dev libc-ares-dev libeigen3-dev
+	sudo pip3 install keras_applications==1.0.7 --no-deps
+	sudo pip3 install keras_preprocessing==1.0.9 --no-deps
+	sudo pip3 install h5py==2.9.0
+	sudo apt-get install -y openmpi-bin libopenmpi-dev
+	sudo apt-get install -y libatlas-base-dev
+	pip3 install -U --user six wheel mock
 	wget https://github.com/PINTO0309/Tensorflow-bin/raw/master/tensorflow-1.14.0-cp37-cp37m-linux_armv7l.whl
 	sudo pip3 install tensorflow-1.14.0-cp37-cp37m-linux_armv7l.whl
 
+- [Tensorflow probability 0.7.0]()
+
+	pip3 install -U tensorflow-probability==0.7.0
+
 - Keras-MDN-Layer: `pip3 install -U keras-mdn-layer`
+- Python-OSC: `pip3 install -U python-osc`
+- Keras: `pip3 install -U keras`
 
 ### Install the service
 
