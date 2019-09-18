@@ -45,7 +45,7 @@ cd /home/pi/empi
 if [ $servo -eq 0 ]
 then
     ## no servo
-    pd -nogui -alsamidi -audiooutdev 1 -audiobuf 50 -mididev 128 -noadc -nrt -verbose -send "; servo_onoff 1;" -open synth/lever_synthesis_midi.pd &
+    pd -nogui -alsamidi -audiooutdev 1 -audiobuf 50 -mididev 128 -noadc -nrt -verbose -send "; servo_onoff 0;" -open synth/lever_synthesis_midi.pd &
     echo "No Servo Mode"
 elif [ $servo -eq 1 ]
 then
@@ -83,8 +83,6 @@ else
     echo "No model chosen, shutting down."
 fi
 
-# Start interface
-#python3 empi_2_runloop.py --screen
 # After the RNN box controller exits, stop Pd
 pkill -u pi pd
 pkill -u pi python3
