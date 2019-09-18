@@ -33,35 +33,23 @@ do
     fi
 done
 
-# echo $model
-# echo $servo
-
 # Start opening software.
 cd /home/pi/empi
 
-# Ignores servo mode for now, doesn't need empi_alsa_midi_interface script.
-
-# # start the alsa midi interface.
-# if [ $servo -eq 0 ]
-# then
-#     ## no servo
-#     python3 empi_alsa_midi_interface.py --screen &
-#     echo "No Servo Mode"
-# elif [ $servo -eq 1 ]
-# then
-#     ## connected servo
-#     python3 empi_alsa_midi_interface.py --servo --screen &
-#     echo "Servo Mode"
-# elif [ $servo -eq 2 ]
-# then
-#     ## disconnect servo
-#     python3 empi_alsa_midi_interface.py --screen & 
-# else
-#     echo "No servo mode chosen, shutting down."
-# fi
-
-# Start Pd
-pd -nogui -alsamidi -audiooutdev 1 -audiobuf 50 -mididev 128 -noadc -nrt -verbose -open synth/lever_synthesis_midi_formant.pd &
+# Start Pd with the correct servo behaviour
+if [ $servo -eq 0 ]
+then
+    ## no servo
+    pd -nogui -alsamidi -audiooutdev 1 -audiobuf 50 -mididev 128 -noadc -nrt -verbose -send "; servo_onoff 0;" -open synth/lever_synthesis_formant_midi.pd &
+    echo "No Servo Mode"
+elif [ $servo -eq 1 ]
+then
+    ## connected servo
+    pd -nogui -alsamidi -audiooutdev 1 -audiobuf 50 -mididev 128 -noadc -nrt -verbose -send "; servo_onoff 1;" -open synth/lever_synthesis_formant_midi.pd &
+    echo "Servo Mode"
+else
+    echo "No servo mode chosen, shutting down."
+fi
 
 # Connect MIDI IO
 sleep 4
@@ -87,8 +75,6 @@ else
     echo "No model chosen, shutting down."
 fi
 
-# Start interface
-#python3 empi_2_runloop.py --screen
 # After the RNN box controller exits, stop Pd
 pkill -u pi pd
 pkill -u pi python3
