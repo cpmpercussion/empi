@@ -1,4 +1,4 @@
-#N canvas 167 23 840 787 10;
+#N canvas 557 62 840 787 10;
 #X obj 129 275 netreceive -u -b;
 #X obj 129 321 oscparse;
 #X obj 129 342 list trim;
@@ -44,7 +44,7 @@
 #X restore 170 595 pd output_stage;
 #X floatatom 545 474 5 0 0 0 - - -;
 #X obj 548 491 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 1700 1;
+-1 -1 6200 1;
 #X obj 545 511 / 127;
 #X obj 545 552 s osctestinput;
 #X obj 545 532 oscformat prediction;
@@ -59,8 +59,12 @@
 #X obj 542 586 r pred_value_float;
 #X obj 543 605 * 127;
 #X obj 543 624 int;
-#X obj 73 540 lever_formant 60 24;
-#X obj 288 533 lever_formant 36 24;
+#X obj 116 536 lever_formant 60 24;
+#X obj 245 535 lever_formant 36 24;
+#X obj 126 668 lever_fm_alg5 60 24;
+#X obj 255 667 lever_fm_alg5 36 24;
+#X obj 124 701 lever_fm_2op 60 24;
+#X obj 253 700 lever_fm_2op 36 24;
 #X connect 0 0 1 0;
 #X connect 1 0 2 0;
 #X connect 2 0 21 0;
