@@ -60,6 +60,8 @@ fi
 
 # Start Pd
 pd -nogui -alsamidi -audiooutdev 1 -audiobuf 50 -mididev 128 -noadc -nrt -verbose -open synth/lever_synthesis_midi.pd &
+
+# Connect MIDI IO
 sleep 4
 aconnect EMPIMIDI:1 Pure\ Data:0
 aconnect Pure\ Data:1 EMPIMIDI:0

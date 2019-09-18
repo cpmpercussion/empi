@@ -44,7 +44,7 @@
 #X restore 127 477 pd output_stage;
 #X floatatom 399 346 5 0 0 0 - - -;
 #X obj 402 363 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 1800 1;
+-1 -1 0 1;
 #X obj 399 383 / 127;
 #X obj 399 424 s osctestinput;
 #X obj 399 404 oscformat prediction;
@@ -110,7 +110,7 @@
 #X obj 186 379 r pred_value_float;
 #X obj 24 400 r inter_value_float;
 #X obj 22 317 s inter_value_float;
-#X obj 444 499 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+#X obj 444 499 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X obj 444 479 r servo_onoff;
 #X obj 452 16 loadbang;
@@ -119,9 +119,12 @@
 #X obj 397 137 notein 1;
 #X obj 397 158 ctlin;
 #X obj 400 559 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 1800 1;
+-1 -1 0 1;
 #X obj 24 420 lever_fm_alg5 60 24;
 #X obj 186 419 lever_fm_alg5 48 24;
+#X msg 266 525 \; servo_onoff 0 \;;
+#X msg 266 557 \; servo_onoff 1 \;;
+#X obj 463 500 print servo;
 #X connect 0 0 1 0;
 #X connect 1 0 2 0;
 #X connect 2 0 21 0;
@@ -162,6 +165,7 @@
 #X connect 48 0 11 0;
 #X connect 49 0 59 0;
 #X connect 51 0 47 1;
+#X connect 51 0 63 0;
 #X connect 52 0 51 0;
 #X connect 53 0 54 0;
 #X connect 54 0 55 0;
