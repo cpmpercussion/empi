@@ -33,8 +33,8 @@ do
     fi
 done
 
-# echo $model
-# echo $servo
+# Set volume
+amixer sset 'PCM' 95%
 
 # Start opening software.
 cd /home/pi/empi
