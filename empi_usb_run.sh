@@ -33,13 +33,8 @@ do
     fi
 done
 
-# echo $model
-# echo $servo
-
 # Start opening software.
 cd /home/pi/empi
-
-# Ignores servo mode for now, doesn't need empi_alsa_midi_interface script.
 
 # start the alsa midi interface.
 if [ $servo -eq 0 ]
