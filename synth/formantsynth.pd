@@ -1,0 +1,72 @@
+#N canvas 279 23 611 578 10;
+#X obj 220 260 textfile;
+#X msg 220 224 read data/formant\$1.txt \, rewind;
+#X obj 193 193 t b f;
+#X floatatom 39 141 5 0 500 2 Base_Freq base-freq -;
+#X floatatom 106 141 5 0 100 2 Pulse_Width pulse-width -;
+#X obj 112 356 hip~ 100;
+#X floatatom 207 312 5 0 2 2 Formant_Base formant-base -;
+#X floatatom 193 141 5 1 8 2 Vowel vowel -;
+#X obj 193 165 int;
+#X msg 314 366 \; base-freq 57 \; pulse-width 21 \; vowel 1 \; formant-base
+1 \;;
+#X obj 314 333 loadbang;
+#X obj 112 328 forfil3;
+#N canvas 0 23 346 239 pulsegen 0;
+#X obj 85 36 inlet;
+#X obj 173 36 inlet;
+#X obj 85 75 phasor~;
+#X obj 86 114 expr~ $v1 > $v2;
+#X obj 86 145 expr~ ($v1 - 0.5) *2;
+#X obj 173 75 expr 1-($f1/100);
+#X obj 86 181 outlet~;
+#X connect 0 0 2 0;
+#X connect 1 0 5 0;
+#X connect 2 0 3 0;
+#X connect 3 0 4 0;
+#X connect 4 0 6 0;
+#X connect 5 0 3 1;
+#X restore 43 202 pd pulsegen;
+#X text 35 -13 A speech formant synthesizer by Jim Qode;
+#X text 247 125 1- a;
+#X text 247 140 2- e;
+#X text 247 155 3- I;
+#X text 247 170 4- i;
+#X text 291 125 5- o;
+#X text 291 140 6- :o;
+#X text 291 155 7- u;
+#X text 291 170 8- :u;
+#X text 35 17 The vowels are Turkish vowels \, but they can be easily
+customized using the text files in data directory. The text files have
+the center frequency \, Q and amplitude data for 3 formant filters.
+Much of the stuff is happening in forfil3 abstraction. Pulsegen can
+be switched with a noise~ object for an annoying whispering voice.
+;
+#X obj 98 438 dac~;
+#X obj 108 394 *~;
+#X obj 207 341 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -262144
+-1 -1 10700 1;
+#X floatatom 207 477 5 0 0 0 - - -;
+#X obj 42 238 lop~ 5000;
+#X obj 57 476 outlet~;
+#X obj 120 477 outlet~;
+#X connect 0 0 11 1;
+#X connect 1 0 0 0;
+#X connect 2 0 0 0;
+#X connect 2 1 1 0;
+#X connect 3 0 12 0;
+#X connect 4 0 12 1;
+#X connect 5 0 24 0;
+#X connect 5 0 29 0;
+#X connect 5 0 28 0;
+#X connect 6 0 11 2;
+#X connect 7 0 8 0;
+#X connect 8 0 2 0;
+#X connect 10 0 9 0;
+#X connect 11 0 5 0;
+#X connect 12 0 27 0;
+#X connect 24 0 23 0;
+#X connect 24 0 23 1;
+#X connect 25 0 24 1;
+#X connect 25 0 26 0;
+#X connect 27 0 11 0;
