@@ -1,5 +1,9 @@
 # EMPI: Embodied Musical Predictive Interface
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3451730.svg)](https://doi.org/10.5281/zenodo.3451730)
+
+
+
 An embedded musical instrument for studying musical prediction and embodied interaction.
 
 <!-- <video src="https://giphy.com/gifs/KFoOINQn0moVJB8uUe/html5"></video> -->
