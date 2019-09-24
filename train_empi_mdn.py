@@ -10,24 +10,38 @@ import datetime
 import os
 os.environ['KMP_DUPLICATE_LIB_OK']='True'
 
-print("Script to train a human-sourced predictive music interaction model for EMPI.")
+parser = argparse.ArgumentParser(description='Script to train a predictive music interaction model for EMPI.')
+parser.add_argument('-p', '--human', dest='human', action="store_true", help='Train the human model.')
+parser.add_argument('-s', '--synth', dest='synth', action="store_true", help='Train the synth model.')
+parser.add_argument('-n', '--noise', dest='noise', action="store_true", help='Train the noise model.')
+args = parser.parse_args()
+
+print("Script to train a predictive music interaction model for EMPI.")
 
 EARLY_STOPPING = True
 PATIENCE = 10
 MODEL_SIZE = 'xs'
 DIMENSION = 2
 HUMAN_DATA_LOCATION = 'datasets/empi-human-dataset.npz'
-SYNTHETIC_DATA_LOCATION = 'datasets/empi-synthetic-dataset.npz'
+SYNTH_DATA_LOCATION = 'datasets/empi-synthetic-dataset.npz'
 NOISE_DATA_LOCATION = 'datasets/empi-noise-dataset.npz'
 
-#DATA_LOCATION = SYNTHETIC_DATA_LOCATION
-#DATA_LOCATION = HUMAN_DATA_LOCATION
-DATA_LOCATION = NOISE_DATA_LOCATION
 
+if (args.human):
+    print("Training human model.")
+    DATA_LOCATION = HUMAN_DATA_LOCATION
+    MODEL_SUFFIX = "human"
 
-#MODEL_SUFFIX = "human"
-#MODEL_SUFFIX = "synth"
-MODEL_SUFFIX = "noise"
+if (args.synth):
+    print("Training synth model.")
+    DATA_LOCATION = SYNTH_DATA_LOCATION
+    MODEL_SUFFIX = "synth"
+
+if (args.noise):
+    print("Training noise model.")
+    DATA_LOCATION = NOISE_DATA_LOCATION
+    MODEL_SUFFIX = "noise"
+
 
 # Import Keras
 import empi_mdrnn
