@@ -16,6 +16,7 @@ from keras import backend as K
 from tensorflow.contrib.training.python.training.hparam import HParams
 print("Done. That took", time.time() - start_import, "seconds.")
 
+
 def build_network(sess, compute_graph, net_config):
     """Build the MDRNN."""
     empi_mdrnn.MODEL_DIR = "./models/"
