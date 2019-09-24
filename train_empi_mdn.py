@@ -14,13 +14,15 @@ parser = argparse.ArgumentParser(description='Script to train a predictive music
 parser.add_argument('-p', '--human', dest='human', action="store_true", help='Train the human model.')
 parser.add_argument('-s', '--synth', dest='synth', action="store_true", help='Train the synth model.')
 parser.add_argument('-n', '--noise', dest='noise', action="store_true", help='Train the noise model.')
+parser.add_argument('-m', '--modelsize', dest='modelsize', default='xs', help="The model size: xs, s, m, l, xl")
+parser.add_argument('-e', "--noearlystopping", dest='earlystopping', action="store_false", help="Use early stopping")
 args = parser.parse_args()
 
 print("Script to train a predictive music interaction model for EMPI.")
 
-EARLY_STOPPING = True
+EARLY_STOPPING = args.earlystopping # default is true
 PATIENCE = 10
-MODEL_SIZE = 'xs'
+MODEL_SIZE = args.modelsize # xs
 DIMENSION = 2
 HUMAN_DATA_LOCATION = 'datasets/empi-human-dataset.npz'
 SYNTH_DATA_LOCATION = 'datasets/empi-synthetic-dataset.npz'
@@ -57,35 +59,37 @@ sess = tf.Session(config=config)
 K.set_session(sess)
 
 # Choose model parameters.
-if MODEL_SIZE is 'xs':
+if args.modelsize == 'xs':
+    print("Using XS model.")
     mdrnn_units = 32
     mdrnn_mixes = 5
     mdrnn_layers = 2
-elif MODEL_SIZE is 's':
+elif args.modelsize == 's':
+    print("Using S model.")
     mdrnn_units = 64
     mdrnn_mixes = 5
     mdrnn_layers = 2
-elif MODEL_SIZE is 'm':
+elif args.modelsize == 'm':
+    print("Using M model.")
     mdrnn_units = 128
     mdrnn_mixes = 5
     mdrnn_layers = 2
-elif MODEL_SIZE is 'l':
+elif args.modelsize == 'l':
+    print("Using L model.")
     mdrnn_units = 256
     mdrnn_mixes = 5
     mdrnn_layers = 2
-elif MODEL_SIZE is 'xl':
+elif args.modelsize == 'xl':
+    print("Using XL model.")
     mdrnn_units = 512
     mdrnn_mixes = 5
     mdrnn_layers = 3
-else:
-    mdrnn_units = 512
-    mdrnn_mixes = 5
-    mdrnn_layers = 2
 
 print("Model size:", MODEL_SIZE)
 print("Units:", mdrnn_units)
 print("Layers:", mdrnn_layers)
 print("Mixtures:", mdrnn_mixes)
+print("EarlyStopping:", EARLY_STOPPING)
 
 # Model Hyperparameters
 SEQ_LEN = 50
@@ -153,7 +157,10 @@ tboard = keras.callbacks.TensorBoard(log_dir='./logs/' + date_string + model_nam
                                      batch_size=32,
                                      write_graph=True,
                                      update_freq='epoch')
-callbacks = [checkpoint, terminateOnNaN, tboard, early_stopping]
+callbacks = [checkpoint, terminateOnNaN, tboard]
+# Early stopping
+if EARLY_STOPPING:
+    callbacks.append(early_stopping)
 # Train
 history = model.fit(X, y, batch_size=BATCH_SIZE,
                     epochs=EPOCHS,
