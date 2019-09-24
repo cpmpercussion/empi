@@ -142,3 +142,11 @@ To follow the stdout from the service, run:
 - Noise, servo: `./empi_2_run.sh --noise --servo`
 
 Finally, shutdown before turning off: `sudo shutdown -h now`
+
+# Training the models
+
+## Generate Data
+
+1. Generate the synthetic datasets by running the Jupyter Notbook: `notebooks/generate_synthetic_data.ipynb`
+2. Generate the human dataset by running `empi_generate_human_dataset.py`
+3. Train the neural network models by running `python3 train_empi_mdn.py -p`, `python3 train_empi_mdn.py -s`, and `python3 train_empi_mdn.py -n`.
