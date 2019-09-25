@@ -106,7 +106,7 @@ SEED = 2345
 random.seed(SEED)
 np.random.seed(SEED)
 
-with np.load(DATA_LOCATION) as loaded:
+with np.load(DATA_LOCATION, allow_pickle=True) as loaded:
     perfs = loaded['perfs']
 
 print("Loaded perfs:", len(perfs))
