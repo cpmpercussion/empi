@@ -18,6 +18,9 @@ print("EMPI specific Script to generate a dataset from .log files in the log dir
 #                     help='The source directory to obtain .log files')
 # args = parser.parse_args()
 
+MAXIMUM_DT = 20.0
+
+
 def transform_log_to_sequence_example(logfile, dimension):
     data_names = ['x'+str(i) for i in range(dimension-1)]
     column_names = ['date', 'source'] + data_names
@@ -34,6 +37,8 @@ def transform_log_to_sequence_example(logfile, dimension):
     perf_df.t = perf_df.t.diff()
     perf_df.t = perf_df.t.dt.total_seconds()
     perf_df = perf_df.dropna()
+    perf_df.at[perf_df[perf_df.t > MAXIMUM_DT].index, 't'] = MAXIMUM_DT
+    print(perf_df.describe())
     return np.array(perf_df[['t']+data_names])
 
 
@@ -66,7 +71,13 @@ interactions = 0
 for l in log_arrays:
     acc += l.shape[0] * l.shape[1]
     interactions += l.shape[0]
+    print("interactions:", l.shape[0])
     time += l.T[0].sum()
+    try:
+        max_time = l.T[0].max()
+    except:
+        max_time = 0
+    print("max_time:", max_time)
     raw = l.astype('float32')  # dt, x_1, ... , x_n
     raw_perfs.append(raw)
 
