@@ -2,15 +2,11 @@
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3451730.svg)](https://doi.org/10.5281/zenodo.3451730)
 
-
-
 An embedded musical instrument for studying musical prediction and embodied interaction.
-
-<!-- <video src="https://giphy.com/gifs/KFoOINQn0moVJB8uUe/html5"></video> -->
 
 ![](https://media.giphy.com/media/KFoOINQn0moVJB8uUe/giphy.gif)
 
-![Musical MDN Example](https://github.com/cpmpercussion/creative-mdns/raw/master/images/rnn_output.png)
+![Musical MDN Example](https://github.com/cpmpercussion/empi/raw/master/images/model_output/human32_model_output.png)
 
 In this work musical data is considered to consist a time-series of continuous valued events. We seek to model the values of the events as well as the time in between each one. That means that these networks model data of at least two dimensions (event value and time).
 
