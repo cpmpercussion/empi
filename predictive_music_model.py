@@ -208,7 +208,7 @@ def monitor_user_action():
         user_to_rnn = False
         rnn_to_rnn = True
         rnn_to_sound = True
-        if call_response_mode is 'call':
+        if call_response_mode == 'call':
             print("switching to response.")
             call_response_mode = 'response'
             while not rnn_prediction_queue.empty():
@@ -221,7 +221,7 @@ def monitor_user_action():
         user_to_rnn = True
         rnn_to_rnn = False
         rnn_to_sound = False
-        if call_response_mode is 'response':
+        if call_response_mode == 'response':
             print("switching to call.")
             call_response_mode = 'call'
             # Empty the RNN queues.
@@ -272,7 +272,7 @@ thread_running = True  # todo is this line needed?
 print("Preparing MDRNN.")
 K.set_session(sess)
 with compute_graph.as_default():
-    if args.modelfile is not "":
+    if args.modelfile != "":
         net.load_model(model_file=args.modelfile) # load custom model.
     else:
         net.load_model()  # try loading from default file location.
