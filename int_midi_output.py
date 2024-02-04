@@ -160,6 +160,7 @@ def send_sound_command(command_args):
     ser.write(bytearray([(8 << 4) | channel, last_note_played, 0])) # stop last note
     new_note = int(ceil(command_args[0] * 127)) # calc new note
     ser.write(bytearray([(9 << 4) | channel, new_note, 127])) # play new note
+    print(f'sent MIDI note: {new_note}')
     last_note_played = new_note # remember last note played
 
 
