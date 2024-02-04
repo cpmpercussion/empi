@@ -3,11 +3,11 @@ import time
 import datetime
 import numpy as np
 import queue
-from pythonosc import dispatcher
-from pythonosc import osc_server
-from pythonosc import udp_client
+import serial
 import argparse
 from threading import Thread
+ser = serial.Serial('/dev/ttyAMA0', baudrate=31250)
+
 
 # Input and output to serial are bytes (0-255)
 # Output to Pd is a float (0-1)
@@ -113,23 +113,6 @@ def build_network(sess):
     return net
 
 
-def handle_interface_message(address: str, *osc_arguments) -> None:
-    """Handler for OSC messages from the interface"""
-    global last_user_interaction_time
-    global last_user_interaction_data
-    if args.verbose:
-        print("User:", time.time(), ','.join(map(str, osc_arguments)))
-    int_input = osc_arguments
-    logging.info("{1},interface,{0}".format(','.join(map(str, int_input)),
-                 datetime.datetime.now().isoformat()))
-    dt = time.time() - last_user_interaction_time
-    last_user_interaction_time = time.time()
-    last_user_interaction_data = np.array([dt, *int_input])
-    assert len(last_user_interaction_data) == args.dimension, "Input is incorrect dimension, set dimension to %r" % len(last_user_interaction_data)
-    # These values are accessed by the RNN in the interaction loop function.
-    interface_input_queue.put_nowait(last_user_interaction_data)
-
-
 def request_rnn_prediction(input_value):
     """ Accesses a single prediction from the RNN. """
     output_value = net.generate_touch(input_value)
@@ -164,10 +147,20 @@ def make_prediction(sess, compute_graph):
         rnn_prediction_queue.task_done()
 
 
+last_note_played = 0
+
 def send_sound_command(command_args):
     """Send a sound command back to the interface/synth"""
+    global last_note_played
     assert len(command_args)+1 == args.dimension, "Dimension not same as prediction size." # Todo more useful error.
-    osc_client.send_message(OUTPUT_MESSAGE_ADDRESS, command_args)
+    # TODO put in serial sending code here
+    # should just send "note on" based on first argument.
+    channel = 0
+    ## order is (cmd/channel), pitch, vel
+    ser.write(bytearray([(8 << 4) | channel, last_note_played, 0])) # stop last note
+    new_note = int(ceil(command_args[0] * 127)) # calc new note
+    ser.write(bytearray([(9 << 4) | channel, new_note, 127])) # play new note
+    last_note_played = new_note # remember last note played
 
 
 def playback_rnn_loop():
@@ -254,12 +247,6 @@ last_user_interaction_data = empi_mdrnn.random_sample(out_dim=args.dimension)
 rnn_prediction_queue.put_nowait(empi_mdrnn.random_sample(out_dim=args.dimension))
 call_response_mode = 'call'
 
-# Set up OSC client and server
-osc_client = udp_client.SimpleUDPClient(args.clientip, args.clientport)
-disp = dispatcher.Dispatcher()
-disp.map(INPUT_MESSAGE_ADDRESS, handle_interface_message)
-server = osc_server.ThreadingOSCUDPServer((args.serverip, args.serverport), disp)
-
 thread_running = True  # todo is this line needed?
 
 # Set up run loop.
@@ -272,14 +259,9 @@ with compute_graph.as_default():
         net.load_model()  # try loading from default file location.
 print("Preparting MDRNN thread.")
 rnn_thread = Thread(target=playback_rnn_loop, name="rnn_player_thread", daemon=True)
-print("Preparing Server thread.")
-server_thread = Thread(target=server.serve_forever, name="server_thread", daemon=True)
 
 try:
     rnn_thread.start()
-    server_thread.start()
-    print("Prediction server started.")
-    print("Serving on {}".format(server.server_address))
     while True:
         make_prediction(sess, compute_graph)
         if args.callresponse:
@@ -288,7 +270,6 @@ except KeyboardInterrupt:
     print("\nCtrl-C received... exiting.")
     thread_running = False
     rnn_thread.join(timeout=0.1)
-    server_thread.join(timeout=0.1)
     pass
 finally:
     print("\nDone, shutting down.")
