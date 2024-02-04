@@ -271,6 +271,7 @@ except KeyboardInterrupt:
     print("\nCtrl-C received... exiting.")
     thread_running = False
     rnn_thread.join(timeout=0.1)
+    ser.write(bytearray([(8 << 4) | 0, last_note_played, 0])) # stop last note on channel 0 in case.
     pass
 finally:
     print("\nDone, shutting down.")
