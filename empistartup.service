@@ -3,7 +3,7 @@ Description=EMPI Startup Script
 After=multi-user.target
 
 [Service]
-ExecStart=/bin/bash /home/pi/empi/empi_2_run.sh
+ExecStart=/bin/bash /home/pi/empi/start_midi_predictor.sh
 WorkingDirectory=/home/pi/empi
 StandardOutput=inherit
 StandardError=inherit
