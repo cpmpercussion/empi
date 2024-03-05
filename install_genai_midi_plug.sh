@@ -54,9 +54,21 @@ iface usb0.1 inet dhcp
 
 EOF
 
+## Ethernet gadget setup:
+
 # probably add to /boot/config.txt 
-# enable_uart=1
-# dtoverlay=disable-bt
 # dtoverlay=dwc2
-# something in /boot/cmdline.txt
+sudo echo -e "\ndtoverlay=dwc2" >> /boot/firmware/config.txt
+
+## TODO
+# add to end of  /boot/firmware/cmdline.txt
 # modules-load=dwc2,g_ether
+
+## Enable UART0
+# https://www.raspberrypi.com/documentation/computers/configuration.html#uarts-and-device-tree
+# Add this to /boot/firmware/config.txt: dtoverlay=disable-bt
+sudo echo -e "\ndtoverlay=disable-bt" >> /boot/firmware/config.txt
+sudo systemctl disable hciuart
+
+# Reboot!
+# sudo reboot
