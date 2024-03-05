@@ -6,8 +6,10 @@ import queue
 import serial
 import argparse
 from threading import Thread
+from websockets.sync.client import connect # websockets connection
 ser = serial.Serial('/dev/ttyAMA0', baudrate=31250)
 
+WEBSOCKET_URL = "ws://localhost:8765" # the URL for the websocket client to send to.
 
 # Input and output to serial are bytes (0-255)
 # Output to Pd is a float (0-1)
@@ -149,6 +151,31 @@ def make_prediction(sess, compute_graph):
 
 last_note_played = 0
 
+## The MIDI and websocket sending routines
+
+
+def send_note_on(channel, pitch, velocity):
+    global websocket
+    """Send a note on message to the serial output"""
+    ser.write(bytearray([(9 << 4) | channel, pitch, velocity]))
+    try:
+        websocket.send(f"/channel/{channel}/noteon/{pitch}/{velocity}") # websocket message
+    except:
+        return
+
+def send_note_off(channel, pitch, velocity):
+    global websocket
+    """Send a note off message to the serial output"""
+    ser.write(bytearray([(8 << 4) | channel, pitch, velocity])) # stop last note
+    try: 
+        websocket.send(f"/channel/{channel}/noteoff/{pitch}/{velocity}") # websocket message
+    except:
+        return
+
+# /channel/1/noteon/54 + ip address + timestamp
+# /channel/1/noteoff/54 + ip address + timestamp
+
+
 def send_sound_command(command_args):
     """Send a sound command back to the interface/synth"""
     global last_note_played
@@ -157,9 +184,9 @@ def send_sound_command(command_args):
     # should just send "note on" based on first argument.
     channel = 0
     ## order is (cmd/channel), pitch, vel
-    ser.write(bytearray([(8 << 4) | channel, last_note_played, 0])) # stop last note
+    send_note_off(channel, last_note_played, 0) # stop last note
     new_note = int(np.ceil(command_args[0] * 127)) # calc new note
-    ser.write(bytearray([(9 << 4) | channel, new_note, 127])) # play new note
+    send_note_on(channel, new_note, 127) # play new note
     print(f'sent MIDI note: {new_note}')
     last_note_played = new_note # remember last note played
 
@@ -259,6 +286,7 @@ with compute_graph.as_default():
     else:
         net.load_model()  # try loading from default file location.
 print("Preparting MDRNN thread.")
+websocket = connect(WEBSOCKET_URL)
 rnn_thread = Thread(target=playback_rnn_loop, name="rnn_player_thread", daemon=True)
 
 try:
