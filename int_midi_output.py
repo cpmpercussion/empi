@@ -9,7 +9,7 @@ from threading import Thread
 from websockets.sync.client import connect # websockets connection
 ser = serial.Serial('/dev/ttyAMA0', baudrate=31250)
 
-WEBSOCKET_URL = "ws://localhost:8765" # the URL for the websocket client to send to.
+WEBSOCKET_URL = "ws://192.168.0.103:3000" # the URL for the websocket client to send to.
 
 # Input and output to serial are bytes (0-255)
 # Output to Pd is a float (0-1)
