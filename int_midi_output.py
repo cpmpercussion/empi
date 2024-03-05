@@ -286,7 +286,10 @@ with compute_graph.as_default():
     else:
         net.load_model()  # try loading from default file location.
 print("Preparting MDRNN thread.")
-websocket = connect(WEBSOCKET_URL)
+try:
+    websocket = connect(WEBSOCKET_URL)
+except:
+    print("Could not connect to websocket.")
 rnn_thread = Thread(target=playback_rnn_loop, name="rnn_player_thread", daemon=True)
 
 try:
@@ -300,6 +303,7 @@ except KeyboardInterrupt:
     thread_running = False
     rnn_thread.join(timeout=0.1)
     ser.write(bytearray([(8 << 4) | 0, last_note_played, 0])) # stop last note on channel 0 in case.
+    websocket.close()
     pass
 finally:
     print("\nDone, shutting down.")
